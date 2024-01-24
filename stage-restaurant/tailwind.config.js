@@ -15,6 +15,11 @@ module.exports = {
             },
         },
     },
+    unknownAtRules: [
+        '@tailwindcss/extend',
+        '@tailwindcss/variants',
+        '@tailwindcss/plugins',
+      ],
 
     plugins: [require('@tailwindcss/forms')],
 };
