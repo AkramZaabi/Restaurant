@@ -1,6 +1,6 @@
 const { defineConfig } = require("@vue/cli-service");
 const webpack = require("webpack");
-
+module.exports = {lintOnSave:false};
 module.exports = defineConfig({
   configureWebpack: {
     plugins: [
