@@ -41,7 +41,8 @@
           <div class="modal-header">
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="reload"></button>
           </div>
-          <form class="modal-body d-flex align-items-center" id="form-login" @submit.prevent="SignUp()" enctype="multipart/form-data">
+          <form class="modal-body d-flex align-items-center" id="form-login" @submit.prevent="SignUp()"
+            enctype="multipart/form-data">
             <h1 class="modal-title fs-5" style="color: #fabd62" id="exampleModalLabel">
               Welcome to<span id="login-span"> FCfooDie2 </span>
             </h1>
@@ -52,7 +53,8 @@
             </div>
             <div class="input-icons">
               <img :src="require('../assets/client-icon.png')" id="icon-input" class="mt-3 ms-4" />
-              <input class="input-field shadow" type="text" v-model="form.lastname" placeholder="Enter your  Last Name.." />
+              <input class="input-field shadow" type="text" v-model="form.lastname"
+                placeholder="Enter your  Last Name.." />
             </div>
             <div class="input-icons">
               <img :src="require('../assets/orange-calendar.png')" id="icon-input" class="mt-3 ms-4 icons-update" />
@@ -60,7 +62,8 @@
             </div>
             <div class="input-icons">
               <img :src="require('../assets/icons8-phone-50.png')" id="icon-input" class="mt-3 ms-4 icons-update" />
-              <input class="input-field shadow" type="number"  v-model="form.tel" placeholder="Enter your  telephone number.." />
+              <input class="input-field shadow" type="number" v-model="form.tel"
+                placeholder="Enter your  telephone number.." />
             </div>
             <div class="input-icons">
               <img :src="require('../assets/icons8-home-30.png')" id="icon-input" class="mt-3 ms-4" />
@@ -72,11 +75,12 @@
             </div>
             <div class="input-icons">
               <img :src="require('../assets/client-icon.png')" id="icon-input" class="mt-3 ms-4" />
-              <input class="input-field shadow" type="password" v-model="form.password" placeholder="Enter your password.." />
+              <input class="input-field shadow" type="password" v-model="form.password"
+                placeholder="Enter your password.." />
             </div>
             <div class="input-icons">
               <img :src="require('../assets/client-icon.png')" id="icon-input" class="mt-3 ms-4" />
-              <input class="input-field shadow" type="file" ref="photo" @change="uploadFile"  />
+              <input class="input-field shadow" type="file" ref="photo" @change="uploadFile" />
             </div>
             <button type="submit" class="btn btn-primary" id="login">
               SIGNUP
@@ -201,17 +205,26 @@
         <img :src="require('../assets/chef.png')" id="chef-m" />
       </div>
     </div>
+    <div class="map-container" height="350px">
+      <h1  class="mb-5 location">Our Location</h1>
+      <div id ="map" >
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1700.2339010912276!2d10.268861150965995!3d36.84716212336433!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fd4aaddd5f6e33%3A0x9eb991e9eca3faab!2sST2i!5e0!3m2!1sfr!2stn!4v1706395839868!5m2!1sfr!2stn" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+    <Footer></Footer>
   </section>
 </template>
 
 <script>
-import {AuthStore} from "@/store/auth.js"
+import Footer from  "@/components/Footer.vue"
+import { AuthStore } from "@/store/auth.js"
 import AuthService from "../services/Auth/authentification.js"
 export default {
   name: "HelloWorld",
-  setup(){
-    const store=AuthStore();
-    return {store}
+  components: { Footer },
+  setup() {
+    const store = AuthStore();
+    return { store }
   },
   data() {
     return {
@@ -235,19 +248,19 @@ export default {
     msg: String,
   },
   methods: {
-    uploadFile(){
-      this.form.photo=this.$refs.photo.files[0];
+    uploadFile() {
+      this.form.photo = this.$refs.photo.files[0];
     },
     reload() {
       location.reload();
     },
     firelogin() {
-      AuthService.login(this.credentials.email,this.credentials.password).then((res)=>{
-       if(this.store.role['role_number']){
-            this.$router.push({name:""})
-       }
+      AuthService.login(this.credentials.email, this.credentials.password).then((res) => {
+        if (this.store.role['role_number']) {
+          this.$router.push({ name: "" })
+        }
       })
-    
+
     },
     SignUp() {
       AuthService.signup({
@@ -276,10 +289,16 @@ section {
   gap: 50px;
 }
 
+#map{
+  border:3px solid #ff9900;
+}
 .container-1 {
   display: flex;
   width: 80%;
   margin-bottom: 30px;
+}
+.location{
+  font-family: "Poppins";
 }
 
 .container-1-2 {
