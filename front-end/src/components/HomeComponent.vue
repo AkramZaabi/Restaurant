@@ -1,174 +1,84 @@
 <template>
   <section class="row gy-5 mt-5">
-    <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <form class="modal-body d-flex align-items-center" id="form-login">
-            <h1
-              class="modal-title fs-5"
-              style="color: #fabd62"
-              id="exampleModalLabel"
-            >
+            <h1 class="modal-title fs-5" style="color: #fabd62" id="exampleModalLabel">
               Welcome to<span id="login-span"> FCfooDie </span>
             </h1>
             <img :src="require('../assets/logo.png')" id="logo" class="mb-3" />
             <div class="input-icons">
-              <img
-                :src="require('../assets/client-icon.png')"
-                id="icon-input"
-                class="mt-3 ms-4"
-              />
-              <input
-                class="input-field shadow"
-                type="text"
-                placeholder="Enter your mail..."
-              />
+              <img :src="require('../assets/client-icon.png')" id="icon-input" class="mt-3 ms-4" />
+              <input v-model="credentials.email" class="input-field shadow" type="text"
+                placeholder="Enter your mail..." />
             </div>
             <div class="input-icons">
-              <img
-                :src="require('../assets/icons8-password-30.png')"
-                id="icon-input"
-                class="mt-3 ms-4"
-              />
-              <input
-                class="input-field shadow"
-                type="text"
-                placeholder="Enter your  password.."
-              />
+              <img :src="require('../assets/icons8-password-30.png')" id="icon-input" class="mt-3 ms-4" />
+              <input v-model="credentials.password" class="input-field shadow" type="password"
+                placeholder="Enter your  password.." />
             </div>
-            <button type="button" class="btn btn-primary" id="login">
+            <button type="button" class="btn btn-primary" @click="firelogin" id="login-btn">
               LOGIN
             </button>
             <div>
               <span>
                 Don't have an account ?
-                <span
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal2"
-                  >SIGN-UP</span
-                >
+                <span data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal"
+                  data-bs-target="#exampleModal2">SIGN-UP</span>
               </span>
             </div>
           </form>
         </div>
       </div>
     </div>
-    <div
-      class="modal fade"
-      id="exampleModal2"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-              @click="reload"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="reload"></button>
           </div>
-          <form class="modal-body d-flex align-items-center" id="form-login">
-            <h1
-              class="modal-title fs-5"
-              style="color: #fabd62"
-              id="exampleModalLabel"
-            >
+          <form class="modal-body d-flex align-items-center" id="form-login" @submit.prevent="SignUp()" enctype="multipart/form-data">
+            <h1 class="modal-title fs-5" style="color: #fabd62" id="exampleModalLabel">
               Welcome to<span id="login-span"> FCfooDie2 </span>
             </h1>
             <img :src="require('../assets/logo.png')" id="logo" />
             <div class="input-icons">
-              <img
-                :src="require('../assets/client-icon.png')"
-                id="icon-input"
-                class="mt-3 ms-4"
-              />
-              <input
-                class="input-field shadow"
-                type="text"
-                placeholder="Enter your First Name..."
-              />
+              <img :src="require('../assets/client-icon.png')" id="icon-input" class="mt-3 ms-4" />
+              <input class="input-field shadow" type="text" v-model="form.name" placeholder="Enter your First Name..." />
             </div>
             <div class="input-icons">
-              <img
-                :src="require('../assets/client-icon.png')"
-                id="icon-input"
-                class="mt-3 ms-4"
-              />
-              <input
-                class="input-field shadow"
-                type="text"
-                placeholder="Enter your  Last Name.."
-              />
+              <img :src="require('../assets/client-icon.png')" id="icon-input" class="mt-3 ms-4" />
+              <input class="input-field shadow" type="text" v-model="form.lastname" placeholder="Enter your  Last Name.." />
             </div>
             <div class="input-icons">
-              <img
-                :src="require('../assets/orange-calendar.png')"
-                id="icon-input"
-                class="mt-3 ms-4 icons-update"
-              />
-              <input
-                class="input-field shadow"
-                type="date"
-                placeholder="Enter your  Birth Date.."
-              />
+              <img :src="require('../assets/orange-calendar.png')" id="icon-input" class="mt-3 ms-4 icons-update" />
+              <input class="input-field shadow" type="date" v-model="form.date" placeholder="Enter your  Birth Date.." />
             </div>
             <div class="input-icons">
-              <img
-                :src="require('../assets/icons8-phone-50.png')"
-                id="icon-input"
-                class="mt-3 ms-4 icons-update"
-              />
-              <input
-                class="input-field shadow"
-                type="number"
-                placeholder="Enter your  telephone number.."
-              />
+              <img :src="require('../assets/icons8-phone-50.png')" id="icon-input" class="mt-3 ms-4 icons-update" />
+              <input class="input-field shadow" type="number"  v-model="form.tel" placeholder="Enter your  telephone number.." />
             </div>
             <div class="input-icons">
-              <img
-                :src="require('../assets/icons8-home-30.png')"
-                id="icon-input"
-                class="mt-3 ms-4"
-              />
-              <input
-                class="input-field shadow"
-                type="text"
-                placeholder="Enter your  addresse.."
-              />
+              <img :src="require('../assets/icons8-home-30.png')" id="icon-input" class="mt-3 ms-4" />
+              <input class="input-field shadow" type="text" v-model="form.adresse" placeholder="Enter your  addresse.." />
             </div>
             <div class="input-icons">
-              <img
-                :src="require('../assets/client-icon.png')"
-                id="icon-input"
-                class="mt-3 ms-4"
-              />
-              <input
-                class="input-field shadow"
-                type="text"
-                placeholder="Enter your  e-mail.."
-              />
+              <img :src="require('../assets/client-icon.png')" id="icon-input" class="mt-3 ms-4" />
+              <input class="input-field shadow" type="text" v-model="form.email" placeholder="Enter your  e-mail.." />
             </div>
-            <button type="button" class="btn btn-primary" id="login">
+            <div class="input-icons">
+              <img :src="require('../assets/client-icon.png')" id="icon-input" class="mt-3 ms-4" />
+              <input class="input-field shadow" type="password" v-model="form.password" placeholder="Enter your password.." />
+            </div>
+            <div class="input-icons">
+              <img :src="require('../assets/client-icon.png')" id="icon-input" class="mt-3 ms-4" />
+              <input class="input-field shadow" type="file" ref="photo" @change="uploadFile"  />
+            </div>
+            <button type="submit" class="btn btn-primary" id="login">
               SIGNUP
             </button>
           </form>
@@ -221,9 +131,7 @@
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Recusandae,
           aperiam! Deleniti numquam dignissimos repellendus, obcaecati eligendi
         </p>
-        <span class="explore"
-          >Explore more <img :src="require('../assets/icon-explore.png')"
-        /></span>
+        <span class="explore">Explore more <img :src="require('../assets/icon-explore.png')" /></span>
       </div>
       <div class="img-food">
         <img :src="require('../assets/steak.png')" />
@@ -233,9 +141,7 @@
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Recusandae,
           aperiam! Deleniti numquam dignissimos repellendus, obcaecati eligendi
         </p>
-        <span class="explore"
-          >Explore more <img :src="require('../assets/icon-explore.png')"
-        /></span>
+        <span class="explore">Explore more <img :src="require('../assets/icon-explore.png')" /></span>
       </div>
       <div class="img-food">
         <img :src="require('../assets/salad.png')" />
@@ -245,23 +151,17 @@
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Recusandae,
           aperiam! Deleniti numquam dignissimos repellendus, obcaecati eligendi
         </p>
-        <span class="explore"
-          >Explore more <img :src="require('../assets/icon-explore.png')"
-        /></span>
+        <span class="explore">Explore more <img :src="require('../assets/icon-explore.png')" /></span>
       </div>
     </div>
-    <div
-      class="container-fluid"
-      id="bg"
-      v-bind:style="{
-        background: 'rgba(0, 0, 0, 0.2)',
-        'background-image':
-          'url(' + require('../assets/restaurant-vue.jpg') + ')',
-        'background-size': '100% 100%',
-        'background-position': 'center',
-        'background-repeat': 'no-repeat',
-      }"
-    >
+    <div class="container-fluid" id="bg" v-bind:style="{
+      background: 'rgba(0, 0, 0, 0.2)',
+      'background-image':
+        'url(' + require('../assets/restaurant-vue.jpg') + ')',
+      'background-size': '100% 100%',
+      'background-position': 'center',
+      'background-repeat': 'no-repeat',
+    }">
       <div class="container-1-3 container col-2 mt-5 lower-home">
         <div class="landing-2">
           <img :src="require('../assets/seafood.jpg')" id="seafood" />
@@ -305,15 +205,65 @@
 </template>
 
 <script>
+import {AuthStore} from "@/store/auth.js"
+import AuthService from "../services/Auth/authentification.js"
 export default {
   name: "HelloWorld",
+  setup(){
+    const store=AuthStore();
+    return {store}
+  },
+  data() {
+    return {
+      credentials: {
+        email: "",
+        password: "",
+      },
+      form: {
+        name: "",
+        photo: "",
+        email: "",
+        password: "",
+        lastname: "",
+        date: "",
+        adresse: "",
+        tel: ""
+      }
+    };
+  },
   props: {
     msg: String,
   },
   methods: {
+    uploadFile(){
+      this.form.photo=this.$refs.photo.files[0];
+    },
     reload() {
       location.reload();
     },
+    firelogin() {
+      AuthService.login(this.credentials.email,this.credentials.password).then((res)=>{
+       if(this.store.role['role_number']){
+            this.$router.push({name:""})
+       }
+      })
+    
+    },
+    SignUp() {
+      AuthService.signup({
+        name: this.form.name,
+        photo: this.form.photo,
+        email: this.form.email,
+        password: this.form.password,
+        lastname: this.form.lastname,
+        date: this.form.date,
+        adresse: this.form.adresse,
+        tel: this.form.tel
+      }).then((res) => {
+        console.log(res.data);
+      })
+    }
+
   },
 };
 </script>
@@ -506,25 +456,30 @@ a {
 .container-1-3 h1 {
   color: lightgrey;
 }
+
 #icon-input {
   position: absolute;
 }
+
 #icon-input img {
   height: 10px;
   width: 10px;
 }
+
 .input-field {
   border-radius: 35px;
   border: 0;
   height: 60px;
   width: 350px;
   padding-left: 60px;
-  transition: border-color 0.3s; /* Add transition for a smooth effect */
+  transition: border-color 0.3s;
+  /* Add transition for a smooth effect */
 }
 
 .input-field:focus {
   border: 1;
-  border-color: orange; /* Change the border color when focused */
+  border-color: orange;
+  /* Change the border color when focused */
 }
 
 .container-1-3 p {
@@ -565,9 +520,11 @@ a {
   display: flex;
   align-content: space-between !important;
 }
+
 input {
   padding-left: 60px;
 }
+
 input:focus {
   border: 1px solid #f9f0e4 !important;
 }
@@ -575,18 +532,22 @@ input:focus {
 #login {
   border-radius: 50px;
 }
+
 #login-span {
   color: #473828;
   font-size: 30px;
   font-family: "Monotype Corsiva";
 }
+
 form h1 {
   font-size: 30px !important;
 }
+
 .modal-body button {
   font-size: smaller;
   font-weight: 300;
 }
+
 .icons-update {
   width: 25px;
   height: 25px;
