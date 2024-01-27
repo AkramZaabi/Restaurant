@@ -22,9 +22,10 @@ class CreateUsersTable extends Migration
             $table->string ('lastName');
             $table->date('Date');
             $table->unsignedDouble('tel');
+            $table->string("photo");
             $table->string('addresse');
-            $table->foreignId('id_role');
-            $table->foreign('id_role')->references('id')->on('roles');
+            $table->foreignId('role_id');
+            $table->foreign('role_id')->references('id')->on('roles');
         });
     }
 
