@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RoleController;
+use App\Http\Controllers\api\SupplementController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,6 @@ Route::middleware('auth:sanctum')->group(function(){
 Route::apiResource('/users',UserController::class);
 Route::post('/login',[AuthController::class,'LoginUser']);
 Route::post('/SignUp',[AuthController::class,'SignUp']);
+
+Route::post('/AddSupplement',[SupplementController::class,'store']);
+Route::get('/GetSupplement',[SupplementController::class,'getSupplements']);
