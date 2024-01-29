@@ -27,6 +27,12 @@
           <li class="me-3">
             <a href="#" class="nav-link px-2 link-dark" id="nav-link-5" @click="changeclass('nav-link-5')">Reservation</a>
           </li>
+          <li class="me-3" v-if="role==3">
+            <router-link to="/Dashboard"  class="nav-link px-2 link-dark" id="nav-link-5" @click="changeclass('nav-link-5')">Dashboard</router-link>
+          </li>
+          <li class="me-3" v-else>
+            <a href="#" class="nav-link px-2 link-dark" id="nav-link-5" @click="changeclass('nav-link-5')">Profile</a>
+          </li>
         </ul>
 
         <div class="col-md-3 text-end">
@@ -41,7 +47,7 @@
            
         
           <div class="menu">
-        <h3>{{user.name+" "+user.lastname}}<br /><span>Client</span></h3>
+        <h3>{{user.name+" "+user.lastName}}<br /><span>Client</span></h3>
         <ul>
           <li>
             <img :src="require('../src/assets/client-icon.png')" class="me-2" /><a href="#">My profile</a>
@@ -86,6 +92,14 @@ export default {
         console.log(x);
       return x;
     },
+    role()
+    {
+      let x = localStorage.getItem("role")
+        ? JSON.parse(localStorage.getItem("role"))
+        : "";
+        console.log(x);
+        return x.role_number;
+    }
   },
   methods: {
     changeclass(id) {

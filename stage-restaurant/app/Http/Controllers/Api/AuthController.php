@@ -49,7 +49,7 @@ class AuthController extends Controller
             'name'=>$request->name,
             'email'=>$request->email,
             'password'=>bcrypt($request->password),
-            'lastname'=>$request->lastname,
+            'lastName'=>$request->lastname,
             'Date'=>$request->date,
             'photo'=>'/storage/' . $image,
             'addresse'=>$request->adresse,

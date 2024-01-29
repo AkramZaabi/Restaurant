@@ -126,7 +126,7 @@
         <img :src="require('../assets/img-home.jpg')" id="img-home" />
       </div>
     </div>
-    <div class="container-1-2 container col-2 mt-5">
+    <div class="container-1-2 container col-2 mt-5" >
       <div class="landing-2">
         <img :src="require('../assets/chef-w.png')" id="img-chef-w" />
       </div>
@@ -287,6 +287,7 @@ export default {
       })
     },
     SignUp() {
+      console.log("image : "+this.form.photo);
       AuthService.signup({
         name: this.form.name,
         photo: this.form.photo,
