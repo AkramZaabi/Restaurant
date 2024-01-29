@@ -23,6 +23,7 @@ export const AuthStore=defineStore('auth',()=>{
         localStorage.setItem('isauth',true);
         localStorage.setItem('role',JSON.stringify(r));
         localStorage.setItem('user',JSON.stringify(u));
+        location.reload();
     }
 
     function logout(){
@@ -34,7 +35,7 @@ export const AuthStore=defineStore('auth',()=>{
         localStorage.removeItem('isauth');
         localStorage.removeItem('role');
         localStorage.removeItem('user');
-       
+        location.reload();
     }
 
     return {login,logout,token,user,isauth,role,getToken,getRole,getisauth,getuser}

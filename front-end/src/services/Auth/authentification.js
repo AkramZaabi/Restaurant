@@ -20,7 +20,7 @@ export default {
         data.append("photo",user.photo);
         data.append("email",user.email);
         data.append("password",user.password);
-        data.append("lastname",user.Lastname);
+        data.append("lastname",user.lastname);
         data.append("date",user.date);
         data.append("adresse",user.adresse);
         data.append("tel",user.tel);

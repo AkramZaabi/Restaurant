@@ -1,6 +1,8 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import MenuView from "../views/MenuView.vue";
+import DashboardView from "../views/DashboardView.vue";
+
 const routes = [
   {
     path: "/",
@@ -20,6 +22,11 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+  },
+  {
+    path: "/Dashboard",
+    name: "Dashboard",
+    component: DashboardView,
   },
 ];
 
