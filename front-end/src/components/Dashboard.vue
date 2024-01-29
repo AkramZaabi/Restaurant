@@ -54,31 +54,68 @@
           <!-- plats -->
           <div class="plats dash">
             <h1 class="text-center mt-5">Add Plat </h1>
-            <form @submit.prevent="submit_supp()" enctype="multipart/form-data">
+            <form @submit.prevent="submit_Prod()" enctype="multipart/form-data">
               <div class="mb-3 container" width="500px">
                 <label for="exampleInputEmail1" class="form-label">Name:</label>
                 <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                  v-model="supplement.name">
+                  v-model="product.name">
                 <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Price</label>
-                <input type="number" class="form-control" id="exampleInputPassword1" v-model="supplement.prix">
+                <input type="number" class="form-control" id="exampleInputPassword1" v-model="product.prix">
               </div>
-            
 
-                <div class="mb-3">
+
+              <div class="mb-3">
                 <label for="formFile" class="form-label">Default file input example</label>
-                <input class="form-control" type="file" id="formFile" ref="photo" @change="uploadFile">
+                <input class="form-control" type="file" id="formFile" ref="photo" @change="uploadFileProduct">
               </div>
-           
+
               <button type="submit" class="btn btn-primary">Submit</button>
+              <div id="supp-available">
+              <div v-for="(options,index2) in supps" :key="index2">
+                <div class="form-check ms-3">
+                  <input class="form-check-input" type="checkbox" :value="options.id" v-model="product.selected_supplements">
+                  <label class="form-check-label" for="flexCheckDefault">
+                   {{options.name}}
+                  </label>
+                </div>
+              </div>
+
+              </div>
             </form>
           </div>
         </div>
         <div class="tab-pane fade" id="nav-clients" role="tabpanel" aria-labelledby="nav-clients-tab" tabindex="0">
-
-
+          <h1 class="text-center">Clients</h1>
+          <table
+      class="dataTable"
+     
+    >
+    
+        <tr>
+          <td style="text-align: center">Photo </td>
+          <td style="text-align: center">Name</td>
+          <td style="text-align: center">Mail</td>
+          <td style="text-align: center">Lieu</td>
+          <td style="text-align: center">Telephone</td>
+          <td style="text-align: center">Operations</td>
+        </tr>
+    
+      <tr  v-for="(user, index2) in users"
+      :key="index2">
+        <td class="table-info"><img :src="'http://localhost:8000'+user.photo" class="img-profile"/></td>
+        <td class="table-info">{{ user.name+" "+user.lastName }}</td>
+        <td class="table-info">{{ user.email }}</td>
+        <td class="table-info">
+          {{ user.addresse }}
+        </td>
+        <td>{{ user.tel }}</td>
+        <td><button class="btn btn-danger me-2">update</button><button class="btn btn-danger">Delete</button></td>
+      </tr>
+      
+    </table>
         </div>
         <div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">
 
@@ -92,12 +129,6 @@
 
     </div>
   </div>
-
-
-
-
-
-
 </template>
 
 
@@ -105,11 +136,14 @@
 <script>
 
 import productService from "@/services/product_manipulation/product_add.js";
+import Users from "@/services/Users/Users";
 export default
   {
 
     created() {
       this.GetSupplements();
+      this.GetALLUsers();
+      this.Getresponsables();
     },
     data() {
       return {
@@ -119,6 +153,18 @@ export default
           photos: "",
         },
         supps: [],
+        product:{
+          prix:0,
+          name:"",
+          photo:"",
+          selected_supplements: [],
+        
+        },
+        users:[],
+        Responsables:[],
+
+        
+
 
 
       }
@@ -130,9 +176,27 @@ export default
           this.supps = response.data.data;
         })
       },
+      Getresponsables()
+      {
+        Users.GetResponsables().then((res)=>{
+          this.Responsables=res.data.data;
+
+        })
+      },
+      GetALLUsers()
+      {
+        Users.GetUsers().then((res)=>{
+          this.users=res.data.data;
+          console.log(this.users);
+        })
+      },
       uploadFile() {
-        this.supplement.photos =this.$refs.photo.files[0];
-        console.log(this.$refs.photo.files[0]);
+        this.supplement.photos = this.$refs.photo.files[0];
+      },
+      uploadFileProduct()
+      {
+          this.product.photo=this.$refs.photo.files[0];
+          console.log(this.product.photo);
       },
       submit_supp() {
         console.log("product " + this.supplement);
@@ -141,6 +205,11 @@ export default
         console.log("product photo " + this.supplement.photos);
         console.log(this.supplement);
         productService.add_product(this.supplement);
+      },
+      submit_Prod()
+      {
+        console.log(this.product);
+        
       }
     },
 
@@ -208,8 +277,64 @@ nav {
   height: 100%;
 }
 
-#supp-available{
+#supp-available {
   display: flex;
   flex-wrap: wrap;
+}
+.dataTable {
+  display: block;
+  width: 100%;
+  margin: 1em 0;
+}
+
+.dataTable thead,
+.dataTable tbody,
+.dataTable thead tr,
+.dataTable th {
+  display: block;
+}
+
+.dataTable tbody {
+  width: auto;
+  position: relative;
+  overflow-x: auto;
+}
+
+.dataTable td,
+.dataTable th {
+  padding: 0.625em;
+  line-height: 1.5em;
+  border-bottom: 1px dashed #ccc;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.dataTable th {
+  text-align: left;
+  background: rgba(0, 0, 0, 0.14);
+  border-bottom: 1px dashed #aaa;
+}
+thead tr th {
+  display: flex;
+  justify-content: center;
+}
+.dataTable tbody tr {
+  display: table-cell;
+}
+
+.dataTable tbody td {
+  display: block;
+}
+
+.dataTable tr:nth-child(odd) {
+  background: rgba(0, 0, 0, 0.07);
+}
+.img-profile{
+  width: 60px;
+  height:60px;
+  border-radius: 50%;
+  cursor: pointer;
+  border:1px solid black;
 }
 </style>

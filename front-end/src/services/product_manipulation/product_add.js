@@ -18,7 +18,21 @@ export default {
     },
      getSupplements() {
          return  Axios.get("/GetSupplement"); // Wait for the promise to resolve
-      }
+      },
+    add_plat(plat)
+    {
+
+        let data  = new FormData();
+        data.append("name", plat.name);
+
+        const config = {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        }
+
+        return Axios.post("/AddPlat",data,config)
+    }
       
 }
 
