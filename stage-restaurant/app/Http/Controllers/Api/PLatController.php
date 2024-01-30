@@ -11,26 +11,39 @@ class PLatController extends Controller
 {
     //
 
-    public  function add(Request  $request )
+    public  function addPlat(Request  $request )
     {
-
+        
+       
         $file_name = time() . '_' . $request->photo->getClientOriginalName();
         $image = $request->file('photo')->storeAs('images', $file_name, 'public');
         
         $plat =  new Plat(); 
         $plat->photo =$image;
-        $plat->name=$request->name; 
+        $plat->nom=$request->name; 
+        $plat->quantite=0;
+        $plat->temps=0;
         $plat->prix=$request->prix;
         $plat->save();
+        $supps = json_decode($request->selected_supplements, true);
 
-        for($i = 0 ;  $i < count($request->selected_supplements); $i++)
-        {
-            $supplement = $request->selected_supplements[$i]->id ; 
-            $plat_supp = new PlatSupp();
-            $plat_supp->Supplement_id=$supplement;
-            $plat_supp->plat_id=$plat->id ;   
-            $plat_supp->save();    
+       
+        if(isset($supps) && is_array($supps) && count($supps)>0){
+
+            for($i = 0 ;  $i < count($supps); $i++)
+            {
+                $supp_id = $supps[$i] ; 
+                $plat_supp = new PlatSupp();
+                $plat_supp->Supplement_id=$supp_id;
+                $plat_supp->plat_id=$plat->id ;   
+                $plat_supp->save();    
+            }
+
         }
+
+
+
+
 
     }
 }

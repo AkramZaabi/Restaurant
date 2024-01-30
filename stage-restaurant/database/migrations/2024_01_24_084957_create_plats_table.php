@@ -17,7 +17,7 @@ class CreatePlatsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('nom');
-            $table->string('category');
+            $table->string('photo');
             $table->integer('quantite');
             $table->unsignedBigInteger('temps');
             $table->unsignedDouble('prix');

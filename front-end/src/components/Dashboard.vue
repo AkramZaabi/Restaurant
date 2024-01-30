@@ -25,7 +25,7 @@
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
           <div class="supplments dash " id="supplements">
             <h1 class="text-center">Add supplment </h1>
-            <form enctype="multipart/form-data">
+            <form @submit.prevent="submit_supp()" enctype="multipart/form-data">
               <div class="mb-3 container" width="500px">
                 <label for="exampleInputEmail1" class="form-label">Name:</label>
                 <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
@@ -38,9 +38,9 @@
               </div>
               <div class="mb-3">
                 <label for="formFile" class="form-label">Default file input example</label>
-                <input class="form-control" type="file" id="formFile" ref="photo" @change="uploadFile">
+                <input class="form-control" type="file" id="formFile" ref="photoSupp" @change="uploadFile">
               </div>
-              <button type="submit" class="btn btn-primary" @click="submit_supp">Submit</button>
+              <button type="submit" class="btn btn-primary" >Submit</button>
             </form>
             <div id="supp-available">
               <div v-for="(supp, index) in supps" :key="index">
@@ -191,7 +191,7 @@ export default
         })
       },
       uploadFile() {
-        this.supplement.photos = this.$refs.photo.files[0];
+        this.supplement.photos = this.$refs.photoSupp.files[0];
       },
       uploadFileProduct()
       {
@@ -204,12 +204,22 @@ export default
         console.log("product " + this.supplement.name);
         console.log("product photo " + this.supplement.photos);
         console.log(this.supplement);
-        productService.add_product(this.supplement);
+        productService.add_product(this.supplement).then((res)=>{
+          console.log(res.data.data);
+        });
       },
       submit_Prod()
       {
+        console.log("akram");
         console.log(this.product);
-        
+        this.product.selected_supplements=JSON.stringify(this.product.selected_supplements);
+        console.log("suppps");
+        console.log(this.product.selected_supplements);
+        productService.add_plat(this.product).then((res)=>{
+          console.log(res.data.data);
+          this.product.selected_supplements=JSON.parse(this.product.selected_supplements);
+        });
+      
       }
     },
 

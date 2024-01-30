@@ -9,4 +9,9 @@ class Supplement extends Model
 {
     use HasFactory;
     protected $guarded=[];
+
+    public function Plats()
+    {
+        return $this->belongsToMany(Plat::class);
+    }
 }

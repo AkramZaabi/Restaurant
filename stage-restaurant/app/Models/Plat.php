@@ -14,5 +14,9 @@ class Plat extends Model
     {
         return  $this->hasMany(Livraison::class);
     }
+    public function Supplements()
+    {
+        return  $this->belongsToMany(Supplement::class,'plat_supps');
+    }
 
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\PLatController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\api\SupplementController;
@@ -33,3 +34,4 @@ Route::post('/AddSupplement',[SupplementController::class,'store']);
 Route::get('/GetSupplement',[SupplementController::class,'getSupplements']);
 Route::get('/GetUsers',[UserController::class,'getusers']);
 Route::get('/GetResponsables',[UserController::class,'getresponsables']);
+Route::post('/AddPlat',[PLatController::class,'addPlat']);
