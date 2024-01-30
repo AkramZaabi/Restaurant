@@ -15,9 +15,4 @@ class Plat extends Model
         return  $this->hasMany(Livraison::class);
     }
 
-    public function  create()
-    {
-
-        
-    }
 }

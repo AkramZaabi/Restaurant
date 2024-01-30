@@ -31,3 +31,5 @@ Route::post('/SignUp',[AuthController::class,'SignUp']);
 
 Route::post('/AddSupplement',[SupplementController::class,'store']);
 Route::get('/GetSupplement',[SupplementController::class,'getSupplements']);
+Route::get('/GetUsers',[UserController::class,'getusers']);
+Route::get('/GetResponsables',[UserController::class,'getresponsables']);

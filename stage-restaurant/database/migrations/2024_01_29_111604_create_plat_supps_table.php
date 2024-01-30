@@ -16,10 +16,10 @@ class CreatePlatSuppsTable extends Migration
         Schema::create('plat_supps', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreign('num_plat');
-            $table->foreign('num_supplement');
-            $table->foreign('num_plat')->references('id')->on('plats');
-            $table->foreign('num_supplement')->references('id')->on('supplements');
+            $table->unsignedBigInteger('plat_id');
+            $table->unsignedBigInteger('supplement_id');
+            $table->foreign('plat_id')->references('id')->on('plats');
+            $table->foreign('supplement_id')->references('id')->on('supplements');
         });
     }
 

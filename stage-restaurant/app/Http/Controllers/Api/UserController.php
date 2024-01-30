@@ -13,6 +13,18 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function  getusers()
+    {
+        $users =  User::all()->where('role_id','=',1);
+        return  response()->json(["data"=>$users],200);
+    }
+    public function getresponsables()
+    {
+        $admins = User::with('Role')->whereHas('Role', function ($query) {
+            $query->where('role_number', '=', 3);
+        })->get();
+        return  response()->json(["data"=>$admins],200);
+    }
     public function index()
     {
         //
