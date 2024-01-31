@@ -15,13 +15,15 @@ class UserController extends Controller
      */
     public function  getusers()
     {
-        $users =  User::all()->where('role_id','=',1);
+        $users = User::with('Role')->whereHas('Role', function ($query) {
+            $query->where('role_number', '=', 1);
+        })->get();
         return  response()->json(["data"=>$users],200);
     }
     public function getresponsables()
     {
         $admins = User::with('Role')->whereHas('Role', function ($query) {
-            $query->where('role_number', '=', 3);
+            $query->where('role_number', '=', 2);
         })->get();
         return  response()->json(["data"=>$admins],200);
     }

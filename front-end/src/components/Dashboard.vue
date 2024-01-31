@@ -24,23 +24,26 @@
       <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
           <div class="supplments dash " id="supplements">
+
             <h1 class="text-center">Add supplment </h1>
-            <form @submit.prevent="submit_supp()" enctype="multipart/form-data">
-              <div class="mb-3 container" width="500px">
+            <form class="card shadow" @submit.prevent="submit_supp()" enctype="multipart/form-data">
+              <label for="exampleInputEmail1" class="form-label"><img :src="require(`../assets/logo.png`)" width="50px"
+                  class="me-2 mt-2" /></label>
+
+              <div class="mb-3 container mt-2" width="500px">
                 <label for="exampleInputEmail1" class="form-label">Name:</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                  v-model="supplement.name">
-                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter the name.."
+                  aria-describedby="emailHelp" v-model="supplement.name">
               </div>
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Price</label>
+                <label for="exampleInputPassword1" class="form-label">Price:</label>
                 <input type="number" class="form-control" id="exampleInputPassword1" v-model="supplement.prix">
               </div>
               <div class="mb-3">
-                <label for="formFile" class="form-label">Default file input example</label>
+                <label for="exampleInputPassword1" class="form-label">Photo:</label>
                 <input class="form-control" type="file" id="formFile" ref="photoSupp" @change="uploadFile">
               </div>
-              <button type="submit" class="btn btn-primary" >Submit</button>
+              <button type="submit" class="btn btn-primary mb-3 mt-1">Submit</button>
             </form>
             <div id="supp-available">
               <div v-for="(supp, index) in supps" :key="index">
@@ -54,80 +57,151 @@
           <!-- plats -->
           <div class="plats dash">
             <h1 class="text-center mt-5">Add Plat </h1>
-            <form @submit.prevent="submit_Prod()" enctype="multipart/form-data">
+            <form class="card shadow" @submit.prevent="submit_Prod()" enctype="multipart/form-data">
+              <label for="exampleInputEmail1" class="form-label"><img :src="require(`../assets/logo.png`)" width="50px"
+                  class="me-2 mt-2" /></label>
               <div class="mb-3 container" width="500px">
                 <label for="exampleInputEmail1" class="form-label">Name:</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                  v-model="product.name">
-                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter the prodduct's name"
+                  aria-describedby="emailHelp" v-model="product.name">
+
               </div>
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Price</label>
-                <input type="number" class="form-control" id="exampleInputPassword1" v-model="product.prix">
+                <label for="exampleInputPassword1" class="form-label">Price:</label>
+                <input type="number" class="form-control" id="exampleInputPassword1" min="0"
+                  placeholder="Enter the prodduct's price" v-model="product.prix">
               </div>
 
 
               <div class="mb-3">
-                <label for="formFile" class="form-label">Default file input example</label>
+                <label for="exampleInputPassword1" class="form-label">Photo:</label>
                 <input class="form-control" type="file" id="formFile" ref="photo" @change="uploadFileProduct">
               </div>
 
               <button type="submit" class="btn btn-primary">Submit</button>
               <div id="supp-available">
-              <div v-for="(options,index2) in supps" :key="index2">
-                <div class="form-check ms-3">
-                  <input class="form-check-input" type="checkbox" :value="options.id" v-model="product.selected_supplements">
-                  <label class="form-check-label" for="flexCheckDefault">
-                   {{options.name}}
-                  </label>
+                <div v-for="(options, index2) in supps" :key="index2" class="check-area ">
+                  <div class="form-check ms-3">
+                    <input class="form-check-input" type="checkbox" :value="options.id"
+                      v-model="product.selected_supplements">
+                    <label class="form-check-label" for="flexCheckDefault">
+                      {{ options.name }}
+                    </label>
+                  </div>
                 </div>
-              </div>
 
               </div>
             </form>
           </div>
+          <h1 class="mt-5">All plats</h1>
+          <table class="dataTable">
+
+            <tr>
+              <td style="text-align: center">Photo </td>
+              <td style="text-align: center">Name</td>
+              <td style="text-align: center">Price</td>
+              <td style="text-align: center">Time</td>
+              <td style="text-align: center">Quantity</td>
+              <td style="text-align: center">Operations</td>
+            </tr>
+
+            <tr v-for="(plat, index2) in Plats" :key="index2">
+              <td class="table-info"> <img :src="'http://localhost:8000/storage/' + plat.photo" width="50px" /></td>
+              <td class="table-info">{{ plat.nom }}</td>
+              <td class="table-info">{{ plat.prix }}</td>
+              <td class="table-info">
+                {{ plat.temps }}
+              </td>
+              <td>{{ plat.quantite }}</td>
+              <td><button class="btn btn-danger me-2"  @click="ChangeSelected(plat)" data-bs-toggle="modal" data-bs-target="#exampleModal">update</button><button class="btn btn-danger"
+                  @click="deletePlat(plat.id)" id="liveToastBtn">Delete</button></td>
+            </tr>
+
+          </table>
         </div>
         <div class="tab-pane fade" id="nav-clients" role="tabpanel" aria-labelledby="nav-clients-tab" tabindex="0">
           <h1 class="text-center">Clients</h1>
-          <table
-      class="dataTable"
-     
-    >
-    
-        <tr>
-          <td style="text-align: center">Photo </td>
-          <td style="text-align: center">Name</td>
-          <td style="text-align: center">Mail</td>
-          <td style="text-align: center">Lieu</td>
-          <td style="text-align: center">Telephone</td>
-          <td style="text-align: center">Operations</td>
-        </tr>
-    
-      <tr  v-for="(user, index2) in users"
-      :key="index2">
-        <td class="table-info"><img :src="'http://localhost:8000'+user.photo" class="img-profile"/></td>
-        <td class="table-info">{{ user.name+" "+user.lastName }}</td>
-        <td class="table-info">{{ user.email }}</td>
-        <td class="table-info">
-          {{ user.addresse }}
-        </td>
-        <td>{{ user.tel }}</td>
-        <td><button class="btn btn-danger me-2">update</button><button class="btn btn-danger">Delete</button></td>
-      </tr>
-      
-    </table>
+          <table class="dataTable">
+
+            <tr>
+              <td style="text-align: center">Photo </td>
+              <td style="text-align: center">Name</td>
+              <td style="text-align: center">Mail</td>
+              <td style="text-align: center">Lieu</td>
+              <td style="text-align: center">Telephone</td>
+              <td style="text-align: center">Operations</td>
+            </tr>
+
+            <tr v-for="(user, index2) in users" :key="index2">
+              <td class="table-info"><img :src="'http://localhost:8000' + user.photo" class="img-profile" /></td>
+              <td class="table-info">{{ user.name + " " + user.lastName }}</td>
+              <td class="table-info">{{ user.email }}</td>
+              <td class="table-info">
+                {{ user.addresse }}
+              </td>
+              <td>{{ user.tel }}</td>
+              <td><button class="btn btn-danger me-2">update</button><button class="btn btn-danger">Delete</button></td>
+            </tr>
+
+          </table>
         </div>
         <div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">
 
 
         </div>
       </div>
+      <!-- Button trigger modal -->
+
+<!-- Modal -->
+<div   class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static"> 
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">Update Plat !</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="update-form" class="card shadow" @submit.prevent="update_prod()" enctype="multipart/form-data">
+              <label for="exampleInputEmail1" class="form-label"><img :src="require(`../assets/logo.png`)" width="50px"
+                  class="me-2 mt-2" /></label>
+              <div class="mb-3 container" width="500px">
+                <label for="exampleInputEmail1" class="form-label">Name:</label>
+                <input type="text" class="form-control" id="exampleInputEmail" placeholder="Enter the prodduct's name"
+                  aria-describedby="emailHelp" v-model="selected_plat.nom">
+
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Price:</label>
+                <input type="number" class="form-control" id="exampleInputPassword" min="0"
+                  placeholder="Enter the prodduct's price" v-model="selected_plat.prix">
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Time:</label>
+                <input type="number" class="form-control" id="exampleInputPassword" min="0"
+                  placeholder="Enter Estimated Time.." v-model="selected_plat.temps">
+              </div>
 
 
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Photo:</label>
+                <input class="form-control" type="file" id="formFile2" ref="photoProd" @change="uploadFilePlat">
+              </div>
 
+             
+              <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+            </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
 
 
     </div>
+
   </div>
 </template>
 
@@ -144,6 +218,7 @@ export default
       this.GetSupplements();
       this.GetALLUsers();
       this.Getresponsables();
+      this.getplats();
     },
     data() {
       return {
@@ -153,17 +228,22 @@ export default
           photos: "",
         },
         supps: [],
-        product:{
-          prix:0,
-          name:"",
-          photo:"",
+        product: {
+          prix: 0,
+          name: "",
+          photo: "",
           selected_supplements: [],
-        
-        },
-        users:[],
-        Responsables:[],
 
-        
+        },
+        users: [],
+        Responsables: [],
+        Plats: [],
+        msg: "",
+        selected_plat:{
+        },
+        image:"",
+
+
 
 
 
@@ -176,27 +256,29 @@ export default
           this.supps = response.data.data;
         })
       },
-      Getresponsables()
-      {
-        Users.GetResponsables().then((res)=>{
-          this.Responsables=res.data.data;
+      Getresponsables() {
+        Users.GetResponsables().then((res) => {
+          this.Responsables = res.data.data;
 
         })
       },
-      GetALLUsers()
-      {
-        Users.GetUsers().then((res)=>{
-          this.users=res.data.data;
+      GetALLUsers() {
+        Users.GetUsers().then((res) => {
+          this.users = res.data.data;
           console.log(this.users);
         })
       },
       uploadFile() {
         this.supplement.photos = this.$refs.photoSupp.files[0];
       },
-      uploadFileProduct()
+      uploadFileProduct() {
+        this.product.photo = this.$refs.photo.files[0];
+        console.log(this.product.photo);
+      },
+      uploadFilePlat()
       {
-          this.product.photo=this.$refs.photo.files[0];
-          console.log(this.product.photo);
+        this.selected_plat.photo=this.$refs.photoProd.files[0];
+        console.log(this.selected_plat.photo);
       },
       submit_supp() {
         console.log("product " + this.supplement);
@@ -204,22 +286,62 @@ export default
         console.log("product " + this.supplement.name);
         console.log("product photo " + this.supplement.photos);
         console.log(this.supplement);
-        productService.add_product(this.supplement).then((res)=>{
+        productService.add_product(this.supplement).then((res) => {
           console.log(res.data.data);
         });
       },
-      submit_Prod()
-      {
+      submit_Prod() {
         console.log("akram");
         console.log(this.product);
-        this.product.selected_supplements=JSON.stringify(this.product.selected_supplements);
+        this.product.selected_supplements = JSON.stringify(this.product.selected_supplements);
         console.log("suppps");
         console.log(this.product.selected_supplements);
-        productService.add_plat(this.product).then((res)=>{
+        productService.add_plat(this.product).then((res) => {
           console.log(res.data.data);
-          this.product.selected_supplements=JSON.parse(this.product.selected_supplements);
+          this.product.selected_supplements = JSON.parse(this.product.selected_supplements);
         });
-      
+
+      },
+      closeModal() {
+      // Get the close button element
+      const closeButton = document.querySelector('.modal .btn-close');
+
+      // Trigger a click on the close button
+      if (closeButton) {
+        closeButton.click();
+      }
+    },
+      getplats() {
+        productService.GetPlats().then((res) => {
+          this.Plats = res.data.data;
+        });
+        /*  productService.GetPlats.then((res)=>{
+          this.Plats=res.data.data;
+          
+        });*/
+      },
+      ChangeSelected(plat)
+      {
+          this.selected_plat=plat;
+      },
+      deletePlat(id) {
+
+        productService.DeletePlat(id).then((res) => {
+          this.msg = res.data.data;
+        });
+
+      },
+      update_prod()
+      {
+        console.log("ahla");
+        console.log(this.selected_plat);
+        productService.UpdatePlat(this.selected_plat).then((res)=>{
+          this.closeModal();
+         this.getplats();
+        }).catch(error=>{
+          console.log(error);
+        })
+
       }
     },
 
@@ -233,12 +355,19 @@ export default
   }
 
 </script>
-<style>
+<style scoped>
 .main {
   display: flex;
   justify-content: space-between;
 }
 
+form label {
+  font-weight: bold;
+  font-size: large;
+}
+#update-form{
+  background-color: white;
+}
 .navs {
   width: 20% !important;
   height: 70%;
@@ -249,6 +378,10 @@ export default
   border-radius: 0% 5% 5% 0%;
 
 
+}
+
+.navs button {
+  width: 50%;
 }
 
 .links {
@@ -287,10 +420,22 @@ nav {
   height: 100%;
 }
 
+.form-check {
+  display: flex;
+  flex-direction: row;
+  justify-content: left !important;
+}
+
 #supp-available {
   display: flex;
   flex-wrap: wrap;
+  justify-content: left !important;
 }
+
+form button {
+  background-color: #ff9900 !important;
+}
+
 .dataTable {
   display: block;
   width: 100%;
@@ -325,10 +470,12 @@ nav {
   background: rgba(0, 0, 0, 0.14);
   border-bottom: 1px dashed #aaa;
 }
+
 thead tr th {
   display: flex;
   justify-content: center;
 }
+
 .dataTable tbody tr {
   display: table-cell;
 }
@@ -340,11 +487,79 @@ thead tr th {
 .dataTable tr:nth-child(odd) {
   background: rgba(0, 0, 0, 0.07);
 }
-.img-profile{
+
+.img-profile {
   width: 60px;
-  height:60px;
+  height: 60px;
   border-radius: 50%;
   cursor: pointer;
-  border:1px solid black;
+  border: 1px solid black;
+}
+
+form {
+  border-radius: 15px;
+  background-color: #FABD62;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 2px solid #F9F0E4;
+  align-items: center;
+}
+
+form div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+form input {
+  width: 80%;
+}
+
+input[type="checkbox"] {
+  width: 15px;
+}
+
+.check-area {
+  display: flex;
+  justify-content: left;
+}
+
+button {
+  border: 0;
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  .main {
+    display: block;
+  }
+
+  .navs {
+    position: static;
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5%;
+  }
+
+  .links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  nav button {
+    width: 50%;
+    font-size: smaller;
+  }
+
 }
 </style>

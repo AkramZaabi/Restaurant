@@ -30,7 +30,7 @@
           <li class="me-3" v-if="role==3">
             <router-link to="/Dashboard"  class="nav-link px-2 link-dark" id="nav-link-5" @click="changeclass('nav-link-5')">Dashboard</router-link>
           </li>
-          <li class="me-3" v-else>
+          <li class="me-3" v-if="role==1">
             <a href="#" class="nav-link px-2 link-dark" id="nav-link-5" @click="changeclass('nav-link-5')">Profile</a>
           </li>
         </ul>
@@ -61,7 +61,7 @@
           <li>
             <img :src="require('../src/assets/client-icon.png')" class="me-2" /><a href="#">Setting</a>
           </li>
-          <li><img :src="require('../src/assets/client-icon.png')"  class="me-2"/><a href="#">Help</a></li>
+          <li><img :src="require('../src/assets/icons8-heart-50.png')"  class="me-2"/><a href="#">Favoris</a></li>
           <li>
             <img :src="require('../src/assets/logout.png')"  class="me-2"/><a href="#" @click="store.logout()">Logout</a>
           </li>
@@ -82,6 +82,12 @@ export default {
    setup() {
     const store = AuthStore();
     return { store }
+  },
+  data()
+  {
+    return {
+
+    }
   },
   computed: {
     user() {

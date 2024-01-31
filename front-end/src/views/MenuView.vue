@@ -1,7 +1,16 @@
-<template><p @click="checkexist()">hhhh</p></template>
+<template>
+
+
+<MenuComponent/>
+
+</template>
 
 <script>
+
+import MenuComponent from '@/components/MenuComponent.vue';
 export default {
+
+  components: { MenuComponent },
   methods: {
     checkexist() {
       const doc = document.querySelector("button");
