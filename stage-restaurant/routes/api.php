@@ -32,6 +32,19 @@ Route::post('/SignUp',[AuthController::class,'SignUp']);
 
 Route::post('/AddSupplement',[SupplementController::class,'store']);
 Route::get('/GetSupplement',[SupplementController::class,'getSupplements']);
+//usres
 Route::get('/GetUsers',[UserController::class,'getusers']);
 Route::get('/GetResponsables',[UserController::class,'getresponsables']);
+
+//plats
 Route::post('/AddPlat',[PLatController::class,'addPlat']);
+
+Route::get('/GetPlats',[PLatController::class,'AllPlats']);
+
+Route::delete('/DeletePlat/{id}',[PLatController::class,'deletePlat']);
+
+Route::post('/Updateplat/{id}',[PLatController::class,'UpdatePlat']);
+
+//
+
+

@@ -36,6 +36,29 @@ export default {
         }
 
         return Axios.post("/AddPlat",data,config)
+    },
+    GetPlats()
+    {
+        return  Axios.get("/GetPlats");
+    },
+    DeletePlat(id)
+    {
+        return Axios.delete("/DeletePlat/"+id);
+    },
+    UpdatePlat(selected_plat)
+    {
+        let data  = new FormData();
+        data.append("nom", selected_plat.nom);
+        data.append("prix",selected_plat.prix);
+        data.append("photo",selected_plat.photo);
+        data.append("temps",selected_plat.temps);
+
+        const config = {
+            Headers: {
+                "content-Type": "multipart/form-data"
+            }
+        }
+        return  Axios.post("/Updateplat/"+selected_plat.id,data,config);
     }
       
 }
