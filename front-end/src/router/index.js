@@ -3,6 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import MenuView from "../views/MenuView.vue";
 import DashboardView from "../views/DashboardView.vue";
 import CartComponent from '@/components/CartComponent.vue';
+import Profileview from "../views/ProfileView.vue";
 
 
 const routes = [
@@ -34,6 +35,11 @@ const routes = [
     path: "/Cart",
     name:"Cart",
     component: CartComponent,
+  },
+  {
+    path:"/Profile",
+    name:"Profile",
+    component:Profileview,
   }
 ];
 

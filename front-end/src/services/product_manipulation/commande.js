@@ -15,6 +15,10 @@ export default {
 
         return Axios.post("/AddCommande", data);
 
+    },
+    get_commandes(id)
+    {
+        return Axios.get("/GetCommande/"+id);
     }
 
 

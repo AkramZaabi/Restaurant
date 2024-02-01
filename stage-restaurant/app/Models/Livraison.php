@@ -20,4 +20,8 @@ class Livraison extends Model
     {
         return  $this->belongsTo(Plat::class);
     }
+    public function LignePLats()
+    {
+        return  $this->hasMany(LignePlat::class);
+    }
 }

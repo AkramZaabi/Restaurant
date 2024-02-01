@@ -31,12 +31,12 @@
             <router-link to="/Dashboard"  class="nav-link px-2 link-dark" id="nav-link-5" @click="changeclass('nav-link-5')">Dashboard</router-link>
           </li>
           <li class="me-3" v-if="role==1">
-            <a href="#" class="nav-link px-2 link-dark" id="nav-link-5" @click="changeclass('nav-link-5')">Profile</a>
+            <router-link to="/Profile" class="nav-link px-2 link-dark" id="nav-link-5" @click="changeclass('nav-link-5')">Profile</router-link>
           </li>
         </ul>
 
         <div class="col-md-3 text-end">
-          <router-link to="/Cart"
+          <router-link  v-if="role" to="/Cart"
             > <img :src="require(`./assets/cart-icon.png`)" id="cart" class="me-3" /></router-link>
           <button v-if="!user" type="button" class="btn ms-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Log in

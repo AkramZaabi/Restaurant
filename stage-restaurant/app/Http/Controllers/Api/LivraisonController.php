@@ -21,6 +21,21 @@ class LivraisonController extends Controller
     {
         return  Livraison::class;
     }
+
+
+    public function GetLivraionByUser( $id)
+    {
+
+        
+        $Livraison = Livraison::with([
+            'LignePlats' => function ($query) {
+                $query->with('Plat');
+            }
+        ])->where('id_user', $id)->get();
+    
+        return  response()->json(["data" => $Livraison],200);
+
+    }
     public function create(Request $request)
     {
 

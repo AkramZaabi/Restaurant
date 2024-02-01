@@ -35,7 +35,10 @@ export const AuthStore=defineStore('auth',()=>{
         localStorage.removeItem('isauth');
         localStorage.removeItem('role');
         localStorage.removeItem('user');
+        localStorage.clear();
         location.reload();
+        router.push({ path: "/" });
+        
     }
     return {login,logout,token,user,isauth,role,getToken,getRole,getisauth,getuser}
   

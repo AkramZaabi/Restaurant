@@ -48,6 +48,8 @@ Route::post('/Updateplat/{id}',[PLatController::class,'UpdatePlat']);
 
 //commandes
 Route::post('/AddCommande',[LivraisonController::class,'create']);
+Route::get('/GetCommande/{id}',[LivraisonController::class,'GetLivraionByUser']);
+
 
 
 
