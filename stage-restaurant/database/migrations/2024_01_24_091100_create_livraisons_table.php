@@ -18,6 +18,7 @@ class CreateLivraisonsTable extends Migration
             $table->timestamps();
             $table->date('Date');
             $table->string('lieu');
+            $table->boolean('status');
             $table->unsignedDouble('prix');
             $table->foreignId('id_product');
             $table->foreignId('id_user');

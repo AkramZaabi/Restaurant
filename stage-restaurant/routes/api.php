@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\api\LivraisonController;
 use App\Http\Controllers\Api\PLatController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RoleController;
@@ -45,6 +46,11 @@ Route::delete('/DeletePlat/{id}',[PLatController::class,'deletePlat']);
 
 Route::post('/Updateplat/{id}',[PLatController::class,'UpdatePlat']);
 
-//
+//commandes
+Route::post('/AddCommande',[LivraisonController::class,'create']);
+
+
+
+
 
 

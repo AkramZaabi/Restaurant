@@ -21,14 +21,68 @@
                     </div>
                    <div class="price">
                     <span class="mt-1">{{ '$'+ plat.prix  }}</span>
-                    <button class="btn buy">add to cart</button>
+                    <button class="btn buy" @click="ChangeSelected(plat)" data-bs-toggle="modal" data-bs-target="#exampleModal">add to cart</button>
                    </div>
                 </div>
             </div>
         </div>
       
 
+<div   class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static"> 
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">Update Plat !</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="update-form" class="card shadow" @submit.prevent="SaveCart(selected_plat)" enctype="multipart/form-data">
+              <label for="exampleInputEmail1" class="form-label"><img :src="require(`../assets/logo.png`)" width="50px"
+                  class="me-2 mt-2" /></label>
+              <div class="mb-3 container" width="500px">
+                <label for="exampleInputEmail1" class="form-label">Name:</label>
+                <input type="text" class="form-control" id="exampleInputEmail" placeholder="Enter the prodduct's name"
+                  aria-describedby="emailHelp" v-model="selected_plat.nom">
 
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Price:</label>
+                <input type="number" class="form-control" id="exampleInputPassword" min="0"
+                  placeholder="Enter the prodduct's price" v-model="selected_plat.prix">
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Time:</label>
+                <input type="number" class="form-control" id="exampleInputPassword" min="0"
+                  placeholder="Enter Estimated Time.." v-model="selected_plat.temps">
+              </div>
+
+
+              <div class="mb-3">
+                <div id="supp-available">
+                <div v-for="(supp, index2) in selected_plat.supplements" :key="index2" class="check-area ">
+                  <div class="form-check ms-3">
+                    <input class="form-check-input" type="checkbox" :value="supp.id" v-model="selected_supplements">
+                    <label class="form-check-label" for="flexCheckDefault">
+                      {{ supp.name }}
+                      {{ supp.id }}
+                    </label>
+                  </div>
+                </div>
+
+              </div>
+              </div>
+
+             
+              <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+            </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
 
     </section>
 </template>
@@ -47,6 +101,7 @@ export default {
     created()
     {
         this.getplats(); 
+        console.log(this.plats);
 
     },
     data()
@@ -54,7 +109,9 @@ export default {
         return  {
 
             plats:[],
-
+            selected_plat:{},
+            selected_supplements: [],
+          
         }
 
     }, 
@@ -68,6 +125,32 @@ export default {
             })
 
         },
+        ChangeSelected(plat)
+        {
+            this.selected_plat=plat;
+            console.log("hhhh");
+            console.log(this.selected_plat
+            );
+        },
+        SaveCart(plat)
+        {
+          plat.supplements=this.selected_supplements;
+          const list = localStorage.getItem("plats");
+      let productList = JSON.parse(list) || [];
+      const index = productList.findIndex((p) => p.id === plat.id);
+      if (index === -1) {
+        productList.push(plat);
+        alert("product added to cart");
+      } else {
+        alert("product already in cart");
+      }
+      localStorage.setItem("plats", JSON.stringify(productList));
+      console.log("Cart length:", productList.length);
+      this.selected_supplements=[];
+        }
+      
+
+            
 
     }
 
@@ -77,6 +160,29 @@ export default {
 </script>
 
 <style scoped>
+input[type="checkbox"] {
+  width: 15px;
+}
+.check-area {
+  display: flex;
+  justify-content: left;
+}
+
+.form-check {
+  display: flex;
+  flex-direction: row;
+  justify-content: left !important;
+}
+
+.form-check-input {
+  width: 15px;
+  height: 15px;
+  margin-right: 5px; /* Adjust this value as needed */
+}
+
+.form-check-label {
+  color: #707070;
+}
 .price{
     display: flex;
     gap:25px;
@@ -118,7 +224,15 @@ h1 {
     color: #707070;
     font-family: "Sofia Pro";
 }
-
+input{
+    width: 100%;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 p {
     width: 30%;
     text-align: center;

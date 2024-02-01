@@ -2,6 +2,8 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import MenuView from "../views/MenuView.vue";
 import DashboardView from "../views/DashboardView.vue";
+import CartComponent from '@/components/CartComponent.vue';
+
 
 const routes = [
   {
@@ -28,6 +30,11 @@ const routes = [
     name: "Dashboard",
     component: DashboardView,
   },
+  {
+    path: "/Cart",
+    name:"Cart",
+    component: CartComponent,
+  }
 ];
 
 const router = createRouter({

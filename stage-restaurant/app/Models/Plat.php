@@ -19,4 +19,9 @@ class Plat extends Model
         return  $this->belongsToMany(Supplement::class,'plat_supps');
     }
 
+    public function LignePlat()
+    {
+        return  $this->hasMany(LignePlat::class);
+    }
+
 }

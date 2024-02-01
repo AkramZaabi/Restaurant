@@ -37,10 +37,6 @@ export const AuthStore=defineStore('auth',()=>{
         localStorage.removeItem('user');
         location.reload();
     }
-    function  shop()
-    {
-        
-    }
     return {login,logout,token,user,isauth,role,getToken,getRole,getisauth,getuser}
   
 })

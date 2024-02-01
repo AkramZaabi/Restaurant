@@ -36,7 +36,8 @@
         </ul>
 
         <div class="col-md-3 text-end">
-          <img :src="require(`./assets/cart-icon.png`)" id="cart" class="me-3" />
+          <router-link to="/Cart"
+            > <img :src="require(`./assets/cart-icon.png`)" id="cart" class="me-3" /></router-link>
           <button v-if="!user" type="button" class="btn ms-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Log in
           </button>

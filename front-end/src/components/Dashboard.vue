@@ -507,12 +507,13 @@ form {
   align-items: center;
 }
 
-form div {
+form div:not(:last-child) {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+
 
 form input {
   width: 80%;
