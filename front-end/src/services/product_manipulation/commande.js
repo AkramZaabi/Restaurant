@@ -27,7 +27,7 @@ export default {
     update_commande(id)
     {
         
-        return Axios.put("/update_status/"+id);
+        return Axios.put("/ConfirmCommande/"+id);
     }
 
 

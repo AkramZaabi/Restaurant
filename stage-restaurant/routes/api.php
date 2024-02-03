@@ -51,7 +51,7 @@ Route::post('/Updateplat/{id}',[PLatController::class,'UpdatePlat']);
 Route::post('/AddCommande',[LivraisonController::class,'create']);
 Route::get('/GetCommande/{id}',[LivraisonController::class,'GetLivraionByUser']);
 Route::get('/GetLivraisons',[LivraisonController::class,'GetAll']);
-Route::get('/update_status/{id}',[LivraisonController::class,'update_status']);
+Route::put('/ConfirmCommande/{id}',[LivraisonController::class,'update_status']);
 
 
 //tables
