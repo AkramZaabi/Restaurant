@@ -36,6 +36,32 @@ class LivraisonController extends Controller
         return  response()->json(["data" => $Livraison],200);
 
     }
+    public function   update_status ($id)
+    {
+
+        $livraison  =  Livraison::find($id) ; 
+
+        if ($livraison) {
+            // Update the status or perform any other necessary logic here
+            $livraison->update(['status' => 1]);
+            
+            return response()->json(['message' => 'Commande updated successfully'], 200);
+        }
+
+        return response()->json(['message' => 'Commande not found'], 404);
+    }
+    public function  GetAll()
+    {
+        $Livraison = Livraison::with([
+            'LignePlats' => function ($query) {
+                $query->with('Plat');
+            }
+        ])->get();
+    
+        return  response()->json(["data" => $Livraison],200);
+    
+    }
+
     public function create(Request $request)
     {
 
@@ -47,7 +73,8 @@ class LivraisonController extends Controller
             $new_Livraison->status = false;
             $new_Livraison->prix=0;
             $new_Livraison->save();
-
+            $id_liv =  $new_Livraison->id;   
+            $total_commande  =0 ;  
             $plats = json_decode($request->plats,true); 
             if (isset($plats) && is_array($plats) && count($plats) > 0) {
 
@@ -80,6 +107,7 @@ class LivraisonController extends Controller
     
                     $ligne_plat->plat_id=$plats[$i]['id'];
                     $ligne_plat->prix_total=$somme;
+                    $total_commande+=$somme;
                     $ligne_plat->save();
                 }
                  $supplements =(($plats[$i]['supplements']));
@@ -97,6 +125,7 @@ class LivraisonController extends Controller
                 }
 
             }
+            $new_Livraison->update(["prix"=>$total_commande]);
         }
             return  response()->json(["data" => "response successfully resolved"],200);
 

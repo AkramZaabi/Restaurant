@@ -1,5 +1,5 @@
 <template>
-    <div class="container main">
+    <div class="container main" >
         <div class="container navs shadow">
             <nav>
                 <div class="nav nav-tabs links d-flex align-items-start" id="nav-tab" role="tablist">
@@ -19,7 +19,7 @@
         </div>
 
 
-        <div class="container infos">
+        <div class="container infos" v-if="store.user" >
             <!-- supplements-->
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"
@@ -72,7 +72,7 @@
                                 <td>TotalPlat</td>
                             </tr>
                             <tr v-for="(plats,index2) in com.ligne_plats" :key="index2">
-                                <td>{{index+1}}</td>
+                                <td>{{index + 1}}</td>
                      <td><img class="mt-2 ms-2" :src="'http://localhost:8000/storage/' + plats.plat.photo" width="50px" /></td>
                     <td>{{ plats.plat.nom }}</td>
                     <td>{{ plats.plat.prix }}</td>
@@ -145,10 +145,13 @@ export default
         methods: {
                 COMMANDES()
                 {
-                    commande.get_commandes(this.store.user.id).then((res)=>{
-                    this.commande=res.data.data;
-                    console.log(res.data.data);
-                });
+                    if(this.store.user.id){
+
+                        commande.get_commandes(this.store.user.id).then((res)=>{
+                        this.commande=res.data.data;
+                        console.log(res.data.data);
+                    });
+                    }
                 },
         },
 

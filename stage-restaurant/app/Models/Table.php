@@ -9,4 +9,10 @@ class Table extends Model
 {
     use HasFactory;
     protected $guarded= [];
+
+    public function roles()
+    {
+        return $this->belongsTo(Role::class, 'id_res');
+    }
+   
 }

@@ -9,7 +9,7 @@
             role="tab" aria-controls="nav-profile" aria-selected="false">Products</button>
           <button class="nav-link" id="nav-clients-tab" data-bs-toggle="tab" data-bs-target="#nav-clients" type="button"
             role="tab" aria-controls="nav-clients" aria-selected="false">Clients</button>
-          <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button"
+          <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-commandes" type="button"
             role="tab" aria-controls="nav-profile" aria-selected="false">Commandes</button>
           <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button"
             role="tab" aria-controls="nav-profile" aria-selected="false">Reservations</button>
@@ -113,7 +113,8 @@
                 {{ plat.temps }}
               </td>
               <td>{{ plat.quantite }}</td>
-              <td><button class="btn btn-danger me-2"  @click="ChangeSelected(plat)" data-bs-toggle="modal" data-bs-target="#exampleModal">update</button><button class="btn btn-danger"
+              <td><button class="btn btn-danger me-2" @click="ChangeSelected(plat)" data-bs-toggle="modal"
+                  data-bs-target="#exampleModal">update</button><button class="btn btn-danger"
                   @click="deletePlat(plat.id)" id="liveToastBtn">Delete</button></td>
             </tr>
 
@@ -125,7 +126,7 @@
 
             <tr>
               <td style="text-align: center">Photo </td>
-              <td style="text-align: center">Name</td>
+              <td style="text-align: center">commande</td>
               <td style="text-align: center">Mail</td>
               <td style="text-align: center">Lieu</td>
               <td style="text-align: center">Telephone</td>
@@ -145,59 +146,87 @@
 
           </table>
         </div>
-        <div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">
+        <div class="tab-pane fade" id="nav-commandes" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">
+          <table v-for="(com, index) in  commandes" :key="index" class="dataTable">
+            <tr>
+              <td>N°Commande</td>
+              <td>Photo</td>
+              <td>Name</td>
+              <td>price</td>
+              <td>quantity</td>
+              <td>TotalPlat</td>
+            </tr>
+            <tr v-for="(plats, index2) in com.ligne_plats" :key="index2">
+              <td>{{ index + 1 }}</td>
+              <td><img class="mt-2 ms-2" :src="'http://localhost:8000/storage/' + plats.plat.photo" width="50px" /></td>
+              <td>{{ plats.plat.nom }}</td>
+              <td>{{ plats.plat.prix }}</td>
+              <td>{{ plats.quantity }}</td>
+              <td>{{ plats.prix_total }}</td>
+            </tr>
+            <tr>
+              <td>Total:</td>
+              <td>{{ com.prix }}</td>
+              <td>Status:</td>
+              <td v-if="com.status == 0" style="color: red;">in Line</td>
+              <td v-else style="color:green">Accepted</td>
+              <td v-if="com.status==0" @click="acceptcommande(com.id)"><button class="btn btn-outline-success">confirm</button></td>
+              <td v-if="com.status==0"><button class="btn btn-outline-success">Annuler</button></td>
 
+            </tr>
+          </table>
 
         </div>
       </div>
       <!-- Button trigger modal -->
 
-<!-- Modal -->
-<div   class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static"> 
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">Update Plat !</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+        data-bs-backdrop="static">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">Update Plat !</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="update-form" class="card shadow" @submit.prevent="update_prod()" enctype="multipart/form-data">
+                <label for="exampleInputEmail1" class="form-label"><img :src="require(`../assets/logo.png`)" width="50px"
+                    class="me-2 mt-2" /></label>
+                <div class="mb-3 container" width="500px">
+                  <label for="exampleInputEmail1" class="form-label">Name:</label>
+                  <input type="text" class="form-control" id="exampleInputEmail" placeholder="Enter the prodduct's name"
+                    aria-describedby="emailHelp" v-model="selected_plat.nom">
+
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">Price:</label>
+                  <input type="number" class="form-control" id="exampleInputPassword" min="0"
+                    placeholder="Enter the prodduct's price" v-model="selected_plat.prix">
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">Time:</label>
+                  <input type="number" class="form-control" id="exampleInputPassword" min="0"
+                    placeholder="Enter Estimated Time.." v-model="selected_plat.temps">
+                </div>
+
+
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">Photo:</label>
+                  <input class="form-control" type="file" id="formFile2" ref="photoProd" @change="uploadFilePlat">
+                </div>
+
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
       </div>
-      <div class="modal-body">
-        <form id="update-form" class="card shadow" @submit.prevent="update_prod()" enctype="multipart/form-data">
-              <label for="exampleInputEmail1" class="form-label"><img :src="require(`../assets/logo.png`)" width="50px"
-                  class="me-2 mt-2" /></label>
-              <div class="mb-3 container" width="500px">
-                <label for="exampleInputEmail1" class="form-label">Name:</label>
-                <input type="text" class="form-control" id="exampleInputEmail" placeholder="Enter the prodduct's name"
-                  aria-describedby="emailHelp" v-model="selected_plat.nom">
-
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Price:</label>
-                <input type="number" class="form-control" id="exampleInputPassword" min="0"
-                  placeholder="Enter the prodduct's price" v-model="selected_plat.prix">
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Time:</label>
-                <input type="number" class="form-control" id="exampleInputPassword" min="0"
-                  placeholder="Enter Estimated Time.." v-model="selected_plat.temps">
-              </div>
-
-
-              <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Photo:</label>
-                <input class="form-control" type="file" id="formFile2" ref="photoProd" @change="uploadFilePlat">
-              </div>
-
-             
-              <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save</button>
-      </div>
-            </form>
-      </div>
-      
-    </div>
-  </div>
-</div>
 
 
     </div>
@@ -210,6 +239,7 @@
 <script>
 
 import productService from "@/services/product_manipulation/product_add.js";
+import CommadeService from "@/services/product_manipulation/commande.js";
 import Users from "@/services/Users/Users";
 export default
   {
@@ -219,6 +249,7 @@ export default
       this.GetALLUsers();
       this.Getresponsables();
       this.getplats();
+      this.GetCommandes();
     },
     data() {
       return {
@@ -239,9 +270,10 @@ export default
         Responsables: [],
         Plats: [],
         msg: "",
-        selected_plat:{
+        selected_plat: {
         },
-        image:"",
+        image: "",
+        commandes: [],
 
 
 
@@ -275,9 +307,8 @@ export default
         this.product.photo = this.$refs.photo.files[0];
         console.log(this.product.photo);
       },
-      uploadFilePlat()
-      {
-        this.selected_plat.photo=this.$refs.photoProd.files[0];
+      uploadFilePlat() {
+        this.selected_plat.photo = this.$refs.photoProd.files[0];
         console.log(this.selected_plat.photo);
       },
       submit_supp() {
@@ -303,14 +334,14 @@ export default
 
       },
       closeModal() {
-      // Get the close button element
-      const closeButton = document.querySelector('.modal .btn-close');
+        // Get the close button element
+        const closeButton = document.querySelector('.modal .btn-close');
 
-      // Trigger a click on the close button
-      if (closeButton) {
-        closeButton.click();
-      }
-    },
+        // Trigger a click on the close button
+        if (closeButton) {
+          closeButton.click();
+        }
+      },
       getplats() {
         productService.GetPlats().then((res) => {
           this.Plats = res.data.data;
@@ -320,9 +351,8 @@ export default
           
         });*/
       },
-      ChangeSelected(plat)
-      {
-          this.selected_plat=plat;
+      ChangeSelected(plat) {
+        this.selected_plat = plat;
       },
       deletePlat(id) {
 
@@ -331,17 +361,27 @@ export default
         });
 
       },
-      update_prod()
-      {
+      update_prod() {
         console.log("ahla");
         console.log(this.selected_plat);
-        productService.UpdatePlat(this.selected_plat).then((res)=>{
+        productService.UpdatePlat(this.selected_plat).then((res) => {
           this.closeModal();
-         this.getplats();
-        }).catch(error=>{
+          this.getplats();
+        }).catch(error => {
           console.log(error);
         })
 
+      },
+      GetCommandes() {
+        CommadeService.get_all_commandes().then((res) => {
+          this.commandes = res.data.data;
+        });
+      },
+      acceptcommande(id)
+      {
+          CommadeService.update_commande(id).then((res)=>{
+            console.log(res.data.data);
+          })
       }
     },
 
@@ -365,9 +405,11 @@ form label {
   font-weight: bold;
   font-size: large;
 }
-#update-form{
+
+#update-form {
   background-color: white;
 }
+
 .navs {
   width: 20% !important;
   height: 70%;
@@ -562,5 +604,4 @@ button {
     font-size: smaller;
   }
 
-}
-</style>
+}</style>

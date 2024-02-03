@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\PLatController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\api\SupplementController;
+use App\Http\Controllers\api\TableController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -49,6 +50,13 @@ Route::post('/Updateplat/{id}',[PLatController::class,'UpdatePlat']);
 //commandes
 Route::post('/AddCommande',[LivraisonController::class,'create']);
 Route::get('/GetCommande/{id}',[LivraisonController::class,'GetLivraionByUser']);
+Route::get('/GetLivraisons',[LivraisonController::class,'GetAll']);
+Route::get('/update_status/{id}',[LivraisonController::class,'update_status']);
+
+
+//tables
+Route::get('/GetSpecifiquesTables/{id}',[TableController::class,'GetSpecifiques']);
+
 
 
 

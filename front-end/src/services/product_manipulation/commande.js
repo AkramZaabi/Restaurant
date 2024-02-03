@@ -19,6 +19,15 @@ export default {
     get_commandes(id)
     {
         return Axios.get("/GetCommande/"+id);
+    },
+    get_all_commandes()
+    {
+        return  Axios.get("/GetLivraisons");
+    },
+    update_commande(id)
+    {
+        
+        return Axios.put("/update_status/"+id);
     }
 
 
