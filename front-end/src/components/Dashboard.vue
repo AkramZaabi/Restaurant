@@ -79,12 +79,12 @@
               </div>
 
               <button type="submit" class="btn btn-primary">Submit</button>
-              <div id="supp-available">
+              <div id="supp-available" class="mt-3 mb-3">
                 <div v-for="(options, index2) in supps" :key="index2" class="check-area ">
                   <div class="form-check ms-3">
                     <input class="form-check-input" type="checkbox" :value="options.id"
                       v-model="product.selected_supplements">
-                    <label class="form-check-label" for="flexCheckDefault">
+                    <label class="form-check-label ms-1" for="flexCheckDefault">
                       {{ options.name }}
                     </label>
                   </div>
