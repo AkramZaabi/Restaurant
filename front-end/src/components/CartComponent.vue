@@ -191,6 +191,8 @@ export default {
     commande.add_commande(this.cart).then((res) => {
         console.log(res.data.data);
       })
+      localStorage.removeItem('plats');
+
 
       
 
