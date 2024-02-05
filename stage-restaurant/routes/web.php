@@ -13,14 +13,21 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+use App\Events\Notif;
+  
+Route::get('/broadcast', function () {
+   /*broadcast(new Notif("test"));
+    return "Event has been sent!";*/
+    event(new Notif());
+    return null ;
+});
 Route::get('/', function () {
     return view('welcome');
 });
 Route:: apiResource('/users',User::class);
 
-Route::get('/dashboard', function () {
+/*Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__.'/auth.php';*/

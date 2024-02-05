@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Events\Notif;
 use App\Http\Controllers\Controller;
 use App\Models\LignePlat;
 use App\Models\LigneSupp;
@@ -47,6 +48,7 @@ class LivraisonController extends Controller
             
             return response()->json(['message' => 'Commande updated successfully'], 200);
         }
+        broadcast(new Notif("commande ajoutée"));
 
         return response()->json(['message' => 'Commande not found'], 404);
     }
@@ -127,6 +129,7 @@ class LivraisonController extends Controller
             }
             $new_Livraison->update(["prix"=>$total_commande]);
         }
+            broadcast(new Notif("commande ajoutée"));
             return  response()->json(["data" => "response successfully resolved"],200);
 
     }
