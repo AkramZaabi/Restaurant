@@ -20,10 +20,10 @@ class Notif implements ShouldBroadcast
      *
      *
      */
-    private  $notif; 
-    public function __construct()
+    public  $notif; 
+    public function __construct($notif)
     {
-       // $this->notif=$notif;
+       $this->notif=$notif;
       
     }
 

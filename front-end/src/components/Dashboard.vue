@@ -320,6 +320,8 @@ export default
         productService.add_product(this.supplement).then((res) => {
           console.log(res.data.data);
         });
+      this.GetSupplements();
+
       },
       submit_Prod() {
         console.log("akram");
@@ -331,6 +333,8 @@ export default
           console.log(res.data.data);
           this.product.selected_supplements = JSON.parse(this.product.selected_supplements);
         });
+      this.getplats();
+
 
       },
       closeModal() {

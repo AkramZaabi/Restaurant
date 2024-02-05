@@ -14,5 +14,8 @@ class Table extends Model
     {
         return $this->belongsTo(Role::class, 'id_res');
     }
-   
+   public function Reservations()
+   {
+    return  $this->hasMany(Reservation::class);
+   }
 }
