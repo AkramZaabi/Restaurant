@@ -3,10 +3,12 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\api\LivraisonController;
 use App\Http\Controllers\Api\PLatController;
+use App\Http\Controllers\api\ReservationController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\api\SupplementController;
 use App\Http\Controllers\api\TableController;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -54,8 +56,14 @@ Route::get('/GetLivraisons',[LivraisonController::class,'GetAll']);
 Route::put('/ConfirmCommande/{id}',[LivraisonController::class,'update_status']);
 
 
+
 //tables
 Route::get('/GetSpecifiquesTables/{id}',[TableController::class,'GetSpecifiques']);
+
+
+// reservation 
+Route::post('/AddReservation',[ReservationController::class,'store']);
+
 
 
 
