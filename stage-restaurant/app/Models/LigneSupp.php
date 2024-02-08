@@ -13,4 +13,8 @@ class LigneSupp extends Model
     {
         return  $this->belongsTo(LignePlat::class);
     }
+    public function Supplement()
+    {
+        return $this->belongsTo(Supplement::class);
+    }
 }

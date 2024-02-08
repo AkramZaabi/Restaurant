@@ -25,20 +25,20 @@ class ReservationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function create_reservation (Request $request)
     {
         //
 
             $new_Rerservation =  New Reservation(); 
 
-            $new_Rerservation->nbPersonne = $request->nbpersonne ;  
+            $new_Rerservation->nbPersonne = $request->nbPersonne ;  
             $new_Rerservation->Date= $request->Date ; 
             $new_Rerservation->table_id = $request->table_id ; 
             $new_Rerservation->id_user= $request->id_user;
             $new_Rerservation->prix  = 50 ; 
 
             $new_Rerservation->save();
-
+            return  response()->json(['data'=>"booked successfully"],200);
 
     }
     public  function Get_per_responsable($id)

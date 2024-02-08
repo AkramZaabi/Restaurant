@@ -57,7 +57,7 @@ class LivraisonController extends Controller
         $Livraison = Livraison::with([
             'LignePlats' => function ($query) {
                 $query->with('Plat');
-            }
+            },
         ])->get();
     
         return  response()->json(["data" => $Livraison],200);

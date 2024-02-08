@@ -10,7 +10,6 @@ import Echo from "laravel-echo"
 const pinia = createPinia()
 axios.defaults.baseURL="http://localhost:8000/api"
 const app = createApp(App)
-app.use(pinia).use(router).mount("#app");
 
 window.Pusher = require('pusher-js');
 
@@ -23,3 +22,4 @@ window.Echo = new Echo({
    forceTLS: false,
    disableStats: true,
 });
+app.use(pinia).use(router).mount("#app");

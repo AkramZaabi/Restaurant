@@ -14,4 +14,8 @@ class Supplement extends Model
     {
         return $this->belongsToMany(Plat::class);
     }
+    public function LigneSupplement()
+    {
+        return  $this->hasMany(LigneSupp::class);
+    }
 }

@@ -18,7 +18,7 @@ use App\Events\Notif;
 Route::get('/broadcast', function () {
    /*broadcast(new Notif("test"));
     return "Event has been sent!";*/
-    event(new Notif());
+    //event(new Notif());
     return null ;
 });
 Route::get('/', function () {

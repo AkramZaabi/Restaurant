@@ -158,7 +158,7 @@ export default {
 
   computed: {
     cartLength() {
-      return this.cart.length;
+      return this.cart.plats.length;
     },
     prixtotal() {
       let total = 0;
@@ -185,20 +185,21 @@ export default {
       let user = this.store.user;
       this.cart.user = user;
       console.log(this.cart.plats);
+      let confirm = 1 ;
       for (let i = 0; i < this.cart.plats.length; i++) {
-        console.log(this.cart.plats[i].supplements);
+       if((this.cart.plats[i].quantite==0)){
+          alert("check  quantity please !!") ; 
+          confirm = 0;
+        }
       }
-    commande.add_commande(this.cart).then((res) => {
-        console.log(res.data.data);
-      })
-      localStorage.removeItem('plats');
-
-
-      
-
-
-
-
+      if(confirm)
+      {
+        commande.add_commande(this.cart).then((res) => {
+            console.log(res.data.data);
+          })
+          localStorage.removeItem('plats');
+          this.$router.push({ name: "home" });
+      }
     },
     decrementquantity(index) {
 

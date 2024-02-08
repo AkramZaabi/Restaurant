@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Reservation;
 use App\Models\Table;
 use Illuminate\Http\Request;
 
@@ -13,13 +14,36 @@ class TableController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function GetSpecifiques($id)
+    public function GetSpecifiques(Request  $request)
     {
+        $id= $request->id;
         $tables = Table::with('roles')->whereHas('roles', function ($query) use ($id) {
             $query->where('id', $id);
         })->get();
-    
+        $date = $request->Date;
+        $reservation = Reservation::with('Table')->wherehas('Table',function($query) use ($date){
+            $query->where('Date',$date) ; 
+        })->get();
+
+        for($i = 0 ;  $i<count($reservation); $i++)
+        {
+            for($j = 0 ;$j<count($tables) ;$j++)
+            {
+                if($tables[$j]->id == $reservation[$i]->table_id)
+                {
+                    $tables->splice($j,1);
+                }
+            }
+        }
+        
+    if(isset($tables))
+    {
+
         return response()->json(["data" => $tables], 200);
+    }
+    else{
+        return response()->json(["data" => "no tables available for this date "], 200); 
+    }
     }
     
 

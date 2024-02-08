@@ -233,7 +233,7 @@
           <div class="modal-header">
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="reload"></button>
           </div>
-          <form class="modal-body d-flex align-items-center" id="form-reservation" @submit.prevent="SignUp()"
+          <form class="modal-body d-flex align-items-center" id="form-reservation" @submit.prevent="MakeReservation()"
             enctype="multipart/form-data">
             <h1 class="modal-title fs-5" style="color: #fabd62" id="exampleModalLabel">
               Welcome to<span id="login-span"> FCfooDie2 </span>
@@ -242,32 +242,31 @@
             <img :src="require('../assets/logo.png')" id="logo" />
             <div class="input-icons">
               <img :src="require('../assets/client-icon.png')" id="icon-input" class="mt-3 ms-4" />
-              <input class="input-field shadow" type="number" v-model="form.name"
+              <input class="input-field shadow" type="number" v-model="form.nbPersonne"
                 placeholder="Enter the number of persons.." />
             </div>
             <div class="input-icons">
               <img :src="require('../assets/orange-calendar.png')" id="icon-input" class="mt-3 ms-4 icons-update" />
-              <input class="input-field shadow" type="date" v-model="form.date" placeholder="Enter your  Birth Date.." />
+              <input class="input-field shadow" type="date" v-model="reservation.Date" placeholder="Enter your  Birth Date.." />
             </div>
             <div class="input-icons">
               
             <select class="form-select input-field shadow" aria-label="Default select example" @change="updateAvailableTables" aria-placeholder="choose your restaurant" v-model="reservation.num_restaurant">
               <option disabled selected value="">Select Your Restaurant</option>
               <option  v-for="(res, index) in  Res"  :key="index"  :value="res.role.id"  class="form-select input-field shadow">{{ res.role.nom_restaurant }}</option>
-              
             </select>
             </div>
             <div class="input-icons">
               
-              <select class="form-select input-field shadow" aria-label="Default select example" aria-placeholder="choose your Table" v-model="reservation.table">
+              <select class="form-select input-field shadow" aria-label="Default select example" aria-placeholder="choose your Table" v-model="reservation.table_id">
                 <option disabled selected value="">Select Your Table</option>
-                <option  v-for="(table,index) in tables" :key="index"     :value="index+1" class="form-select input-field shadow">{{"Table :"+ table.id}}</option>
+                <option  v-for="(table,index) in tables" :key="index"     :value="table.id" class="form-select input-field shadow">{{"Table :"+ table.id}}</option>
               </select>
               </div>
 
 
-            <button type="submit" class="btn btn-primary" id="login_btn">
-              SIGNUP
+            <button type="submit" class="btn btn-primary" id="login_btn" data-bs-dismiss="modal" aria-label="Close" >
+              Book
             </button>
           </form>
         </div>
@@ -325,9 +324,13 @@ export default {
         nbPersonne:0 ,
         Date : "",
         num_restaurant:"",
-        table:"",
+        table_id:"",
       },
       tables :[],
+      resto : {
+        date:"",
+        id:"",
+      }
     };
   },
   props: {
@@ -374,14 +377,29 @@ export default {
     updateAvailableTables()
     {
       // use this.reservation. 
-      console.log(this.reservation.num_restaurant);
-      Livraison.GetSpecifiqueTables(this.reservation.num_restaurant).then((res)=>{
+      console.log(this.reservation.num_restaurant); 
+     
+      this.resto.date =  this.reservation.Date; 
+     this.resto.id = this.reservation.num_restaurant;
+
+      
+      Livraison.GetSpecifiqueTables(this.resto).then((res)=>{
         this.tables =  res.data.data;
         console.log(res.data.data);
       })
 
 
-    }
+    },
+    MakeReservation()
+    {
+      this.reservation.id_user = this.store.user.id;  
+
+      console.log(this.reservation);
+      
+      Livraison.makereservation(this.reservation).then((res)=>{
+        console.log(res.data.data);
+      })
+    },
 
   },
 };

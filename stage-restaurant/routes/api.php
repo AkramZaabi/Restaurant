@@ -58,11 +58,11 @@ Route::put('/ConfirmCommande/{id}',[LivraisonController::class,'update_status'])
 
 
 //tables
-Route::get('/GetSpecifiquesTables/{id}',[TableController::class,'GetSpecifiques']);
+Route::post('/GetSpecifiquesTables',[TableController::class,'GetSpecifiques']);
 
 
 // reservation 
-Route::post('/AddReservation',[ReservationController::class,'store']);
+Route::post('/AddReservation',[ReservationController::class,'create_reservation']);
 
 
 
