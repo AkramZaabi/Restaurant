@@ -11,7 +11,7 @@
             role="tab" aria-controls="nav-clients" aria-selected="false">Clients</button>
           <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-commandes" type="button"
             role="tab" aria-controls="nav-profile" aria-selected="false">Commandes</button>
-          <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button"
+          <button class="nav-link" id="nav-reservation-tab" data-bs-toggle="tab" data-bs-target="#nav-reservations" type="button"
             role="tab" aria-controls="nav-profile" aria-selected="false">Reservations</button>
 
         </div>
@@ -141,12 +141,13 @@
                 {{ user.addresse }}
               </td>
               <td>{{ user.tel }}</td>
-              <td><button class="btn btn-danger me-2">update</button><button class="btn btn-danger">Delete</button></td>
+              <td><button class="btn btn-danger" @click="deleteclient(user.id)">Delete</button></td>
             </tr>
 
           </table>
         </div>
         <div class="tab-pane fade" id="nav-commandes" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">
+          <h2>Commandes</h2>
           <table v-for="(com, index) in  commandes" :key="index" class="dataTable">
             <tr>
               <td>N°Commande</td>
@@ -168,14 +169,41 @@
               <td>Total:</td>
               <td>{{ com.prix }}</td>
               <td>Status:</td>
-              <td v-if="com.status == 0" style="color: red;">in Line</td>
-              <td v-else style="color:green">Accepted</td>
+              <td v-if="com.status == 0" style="color: orange;">in Line</td>
+              <td v-else-if="com.status==2" style="color:red">Rejected</td>
+              <td v-else style="color:green" >Accepted</td>
               <td v-if="com.status==0" @click="acceptcommande(com.id)"><button class="btn btn-outline-success">confirm</button></td>
-              <td v-if="com.status==0"><button class="btn btn-outline-success">Annuler</button></td>
+              <td v-if="com.status==0"><button class="btn btn-outline-success" @click="rejectCommande(com.id)">Annuler</button></td>
 
             </tr>
           </table>
 
+        </div>
+        <div class="tab-pane fade" id="nav-reservations" role="tabpanel" aria-labelledby="nav-clients-tab" tabindex="0">
+          <h1 class="text-center">Reservations</h1>
+          <table class="dataTable">
+
+            <tr>
+              <td style="text-align: center">Reservation </td>
+              <td style="text-align: center">Date</td>
+              <td style="text-align: center">Personnes</td>
+              <td style="text-align: center">Price</td>
+              <td style="text-align: center">table</td>
+              <td style="text-align: center">restaurant</td>
+            </tr>
+
+            <tr v-for="(user, index2) in users" :key="index2">
+              <td class="table-info"><img :src="'http://localhost:8000' + user.photo" class="img-profile" /></td>
+              <td class="table-info">{{ user.name + " " + user.lastName }}</td>
+              <td class="table-info">{{ user.email }}</td>
+              <td class="table-info">
+                {{ user.addresse }}
+              </td>
+              <td>{{ user.tel }}</td>
+              <td><button class="btn btn-danger" @click="deleteclient(user.id)">Delete</button></td>
+            </tr>
+
+          </table>
         </div>
       </div>
       <!-- Button trigger modal -->
@@ -240,16 +268,23 @@
 
 import productService from "@/services/product_manipulation/product_add.js";
 import CommadeService from "@/services/product_manipulation/commande.js";
+import reservations from "@/services/reservations/reservations";
 import Users from "@/services/Users/Users";
+import { AuthStore } from "@/store/auth.js"
+
 export default
   {
-
+    setup() {
+    const store = AuthStore();
+    return { store }
+  },
     created() {
       this.GetSupplements();
       this.GetALLUsers();
       this.Getresponsables();
       this.getplats();
       this.GetCommandes();
+      this.GetcommandesResponsables();
     },
     data() {
       return {
@@ -337,6 +372,9 @@ export default
 
 
       },
+      GetcommandesResponsables(){
+        reservations.GetReservationResponsable(this.store.user.id)
+      },
       closeModal() {
         // Get the close button element
         const closeButton = document.querySelector('.modal .btn-close');
@@ -384,6 +422,26 @@ export default
       acceptcommande(id)
       {
           CommadeService.update_commande(id).then((res)=>{
+            console.log(res.data.data);
+          })
+      },
+
+      deleteclient(id)
+      {
+        console.log(id);
+        Users.DeleteUser(id)
+        .then((res) => {
+            console.log(res.data.data);
+            return res.data.data; // You can return the result if needed
+        })
+        .catch((error) => {
+            console.error('Error in deleteclient:', error);
+            throw error; // Rethrow the error to propagate it
+        });
+      },
+      rejectCommande(id)
+      {
+        CommadeService.reject_commande(id).then((res)=>{
             console.log(res.data.data);
           })
       }

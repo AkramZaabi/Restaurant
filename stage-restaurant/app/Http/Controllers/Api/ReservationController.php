@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Reservation;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -41,14 +42,40 @@ class ReservationController extends Controller
             return  response()->json(['data'=>"booked successfully"],200);
 
     }
+    public  function all_reservation()
+    {
+        $reservations=Reservation::with('Table')->get();
+
+        for($i = 0 ;  $i<count($reservations) ; $i++)
+        {
+            $nom_resto =  Role::find($reservations[$i]['table']['id_res'])->nom_restaurant;
+            $reservations[$i]['nom_restaurant'] = $nom_resto;
+        }
+        return  response()->json(['data'=>$reservations],200);
+
+    }
     public  function Get_per_responsable($id)
     {
         $user  =  User::find($id);
         $id_restaurant =  $user->role_id;
+       // $reservations = Reservation::with('Table')->get();
+       $reservations =  Reservation::with('Table')->wherehas('Table',function($query) use ($id_restaurant){
+                $query->where('id_res',$id_restaurant);
+        })->get();
+        
+      /*  $reservations = Reservation::with(['Table' => function ($query) use ($id_restaurant) {
+            // Eager load 'Role' relationship for 'Table'
+            $query->with('Role')->where('id_res', '=', $id_restaurant);
+        }])
+        ->whereHas('Table', function ($query) use ($id_restaurant) {
+            // Filter reservations based on the 'Table' relationship
+            $query->where('id_res', '=', $id_restaurant);
+        })
+        ->get();*/
+        $nom_resto = Role::find($id_restaurant)->nom_restaurant; 
+        $reservations['nom_restaurant'] =  $nom_resto;
 
-        $reservations =  Reservation::with('Table')->wherehas('Table',function($query) use ($id_restaurant){
-                $query->where('id_res','=',$id_restaurant);
-        });
+
         return  response()->json(['data'=>$reservations],200);
         
     }

@@ -28,6 +28,11 @@ export default {
     {
         
         return Axios.put("/ConfirmCommande/"+id);
+    },
+    reject_commande(id)
+    {
+        
+        return Axios.put("/AnnulerCommande/"+id);
     }
 
 

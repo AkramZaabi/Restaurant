@@ -135,7 +135,15 @@ class LivraisonController extends Controller
     }
 
 
-    
+    public function annuler_commande($id)
+    {
+        $livraison  =  Livraison::find($id) ; 
+
+        $livraison->update(['status'=>2]);
+
+        return response()->json(['message' => 'Commande rejected successfully'], 200);
+
+    }
     
 
     /**

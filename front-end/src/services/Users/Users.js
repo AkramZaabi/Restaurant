@@ -6,9 +6,9 @@ export default {
     {
         return  Axios.get("/GetUsers");
     },
-    DeleteUser($id)
+    DeleteUser(id)
     {
-
+       return  Axios.delete("/DeleteUser/"+id);
     },
     GetResponsables()
     {

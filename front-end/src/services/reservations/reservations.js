@@ -27,7 +27,12 @@ export default {
                 data.append("id_user",reservation.id_user);
         
                 return  Axios.post('AddReservation',data);
+        },
+        GetReservationResponsable(id)
+        {
+                return  Axios.get('GetReservationResponsable/'+id);
         }
+
 
 }
 

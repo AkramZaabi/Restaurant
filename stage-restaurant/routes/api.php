@@ -39,7 +39,7 @@ Route::get('/GetSupplement',[SupplementController::class,'getSupplements']);
 //usres
 Route::get('/GetUsers',[UserController::class,'getusers']);
 Route::get('/GetResponsables',[UserController::class,'getresponsables']);
-
+Route::delete('/DeleteUser/{id}',[UserController::class,'deleteUser']);
 //plats
 Route::post('/AddPlat',[PLatController::class,'addPlat']);
 
@@ -54,6 +54,8 @@ Route::post('/AddCommande',[LivraisonController::class,'create']);
 Route::get('/GetCommande/{id}',[LivraisonController::class,'GetLivraionByUser']);
 Route::get('/GetLivraisons',[LivraisonController::class,'GetAll']);
 Route::put('/ConfirmCommande/{id}',[LivraisonController::class,'update_status']);
+Route::put('/AnnulerCommande/{id}',[LivraisonController::class,'annuler_commande']);
+
 
 
 
@@ -63,6 +65,9 @@ Route::post('/GetSpecifiquesTables',[TableController::class,'GetSpecifiques']);
 
 // reservation 
 Route::post('/AddReservation',[ReservationController::class,'create_reservation']);
+Route::get('/GetReservationResponsable/{id}',[ReservationController::class,'Get_per_responsable']);
+
+
 
 
 
