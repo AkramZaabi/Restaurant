@@ -42,7 +42,7 @@
                                 <div><span><img :src="require('../assets/icons8-phone-50.png')" width="30px" height="30px"
                                             class="me-2" />{{ "Tel : " + store.user.tel }}</span></div>
                             </div>
-                            <div id="holder" class="mb-3"><button class="btn">Update</button><button class="btn">Log
+                            <div id="holder" class="mb-3"><button class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Update</button><button class="btn">Log
                                     out</button></div>
 
 
@@ -88,26 +88,76 @@
                 <div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab"
                     tabindex="0">
 
+                    <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">Notifications</h1>
 
                 </div>
             </div>
             <!-- Button trigger modal -->
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-                data-bs-backdrop="static">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">Notifications</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                        </div>
-
-                    </div>
-                </div>
+           
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+        data-bs-backdrop="static">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">Update profile !</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <div class="modal-body">
+              <form id="update-form" class="card shadow" @submit.prevent="update_user()" enctype="multipart/form-data">
+                <label for="exampleInputEmail1" class="form-label"><img :src="require(`../assets/logo.png`)" width="50px"
+                    class="me-2 mt-2" /></label>
+                <div class="mb-3 container" width="500px">
+                  <label for="exampleInputEmail1" class="form-label">Name:</label>
+                  <input type="text" class="form-control"   v-model="user.name" id="exampleInputEmail" placeholder="Enter the prodduct's name"
+                    aria-describedby="emailHelp">
+
+                </div>
+                <div class="mb-3 container" width="500px">
+                  <label for="exampleInputEmail1" class="form-label">LastName:</label>
+                  <input type="text" class="form-control"   v-model="user.lastName" id="exampleInputEmail" placeholder="Enter the prodduct's name"
+                    aria-describedby="emailHelp">
+
+                </div>
+                <div class="mb-3 container" width="500px">
+                  <label for="exampleInputPassword1" class="form-label">Addresse:</label>
+                  <input type="text" class="form-control"   v-model="user.addresse" id="exampleInputPassword" 
+                    placeholder="Enter the prodduct's price">
+                </div>
+                <div class="mb-3 container" width="500px">
+                  <label for="exampleInputPassword1" class="form-label">e-mail:</label>
+                  <input type="mail" class="form-control"   v-model="user.email" id="exampleInputPassword" 
+                    placeholder="Enter the prodduct's price">
+                </div>
+                <div class="mb-3 container" width="500px">
+                  <label for="exampleInputPassword1" class="form-label">password:</label>
+                  <input type="password" class="form-control"   v-model="user.password" id="exampleInputPassword" 
+                    placeholder="Enter User password">
+                </div>
+                <div class="mb-3 container" width="500px">
+                  <label for="exampleInputPassword1" class="form-label">Tel:</label>
+                  <input type="number" class="form-control"  v-model="user.tel" id="exampleInputPassword" min="0"
+                    placeholder="Enter Estimated Time..">
+                </div>
+
+
+                <div class="mb-3 container" width="500px">
+                  <label for="exampleInputPassword1" class="form-label">Photo:</label>
+                  <input class="form-control" type="file"   id="formFile2" ref="UserPhoto" @change="uploadFile">
+                </div>
+
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
 
 
         </div>
@@ -132,12 +182,15 @@ export default
         },
         created() {
                 this.COMMANDES();
+                this.user = this.store.user;
+                console.log(this.user);
         },
         data() {
             return {
 
 
                     commande:[],
+                    user:"",
 
 
             }
@@ -153,6 +206,12 @@ export default
                     });
                     }
                 },
+                uploadFile()
+                {
+                    this.user.photo = this.$refs.UserPhoto.files[0];
+                    console.log(this.user.photo);
+
+                }
         },
 
 

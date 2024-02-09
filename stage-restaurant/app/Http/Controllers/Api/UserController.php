@@ -43,7 +43,8 @@ class UserController extends Controller
     {
         //
         $user = User::find($id);
-
+       /* $file_name = time() . '_' . $request->photo->getClientOriginalName();
+        $image = $request->file('photo')->storeAs('images', $file_name, 'public');*/
 
         $user->delete();
         return  response()->json(["data"=>"user deleted successfully"],200);
@@ -56,9 +57,25 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function update(Request $request)
     {
         //
+        $user=User::find($request->id);
+        $file_name = time() . '_' . $request->photo->getClientOriginalName();
+        $image = $request->file('photo')->storeAs('images', $file_name, 'public');
+
+
+        $user->update([
+            "name" =>$request->name,
+            "lastName" =>$request->lastName,
+            "addresse" =>$request->addresse,
+            "tel"=>$request->tel,
+            "email"=>$request->email,
+            "password"=>bcrypt($request->password),
+            "photo"=>$image,
+        ]);
+
+
     }
 
     /**
@@ -68,10 +85,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+   
 
     /**
      * Remove the specified resource from storage.

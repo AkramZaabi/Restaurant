@@ -242,7 +242,7 @@
             <img :src="require('../assets/logo.png')" id="logo" />
             <div class="input-icons">
               <img :src="require('../assets/client-icon.png')" id="icon-input" class="mt-3 ms-4" />
-              <input class="input-field shadow" type="number" v-model="form.nbPersonne"
+              <input class="input-field shadow" type="number" v-model="reservation.nbPersonne"
                 placeholder="Enter the number of persons.." />
             </div>
             <div class="input-icons">

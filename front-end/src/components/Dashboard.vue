@@ -192,15 +192,17 @@
               <td style="text-align: center">restaurant</td>
             </tr>
 
-            <tr v-for="(user, index2) in users" :key="index2">
-              <td class="table-info"><img :src="'http://localhost:8000' + user.photo" class="img-profile" /></td>
-              <td class="table-info">{{ user.name + " " + user.lastName }}</td>
-              <td class="table-info">{{ user.email }}</td>
+            <tr v-for="(reservation, index2) in Reservations" :key="index2">
+              <td class="table-info">{{reservation.id}}</td>
+              <td class="table-info">{{ reservation.Date }}</td>
+              <td class="table-info">{{ reservation.nbPersonne }}</td>
               <td class="table-info">
-                {{ user.addresse }}
+                {{ reservation.prix }}
               </td>
-              <td>{{ user.tel }}</td>
-              <td><button class="btn btn-danger" @click="deleteclient(user.id)">Delete</button></td>
+              <td>{{ reservation.table_id }}</td>
+              <td>{{ reservation.nom_restaurant }}</td>
+
+              
             </tr>
 
           </table>
@@ -284,7 +286,7 @@ export default
       this.Getresponsables();
       this.getplats();
       this.GetCommandes();
-      this.GetcommandesResponsables();
+      this.Getreservations();
     },
     data() {
       return {
@@ -309,11 +311,8 @@ export default
         },
         image: "",
         commandes: [],
-
-
-
-
-
+        Reservations:[],
+        
       }
     },
     methods: {
@@ -372,8 +371,11 @@ export default
 
 
       },
-      GetcommandesResponsables(){
-        reservations.GetReservationResponsable(this.store.user.id)
+      Getreservations(){
+        reservations.Admin_reservations().then((res)=>{
+          this.Reservations=res.data.data;
+        })
+        
       },
       closeModal() {
         // Get the close button element

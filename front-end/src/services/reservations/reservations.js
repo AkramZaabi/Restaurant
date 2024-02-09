@@ -31,6 +31,10 @@ export default {
         GetReservationResponsable(id)
         {
                 return  Axios.get('GetReservationResponsable/'+id);
+        },
+        Admin_reservations()
+        {
+                return  Axios.get('AllReservations');
         }
 
 

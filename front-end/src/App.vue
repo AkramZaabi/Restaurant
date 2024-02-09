@@ -27,10 +27,10 @@
           <li class="me-3">
             <a href="#" class="nav-link px-2 link-dark" id="nav-link-5" @click="changeclass('nav-link-5')">Reservation</a>
           </li>
-          <li class="me-3" v-if="role==3|| role == 2">
+          <li class="me-3" v-if="role==3">
             <router-link to="/Dashboard"  class="nav-link px-2 link-dark" id="nav-link-5" @click="changeclass('nav-link-5')">Dashboard</router-link>
           </li>
-          <li class="me-3" v-if="role==1">
+          <li class="me-3" v-if="role==1 || role == 2 ">
             <router-link to="/Profile" class="nav-link px-2 link-dark" id="nav-link-5" @click="changeclass('nav-link-5')">Profile</router-link>
           </li>
         </ul>

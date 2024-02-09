@@ -66,6 +66,8 @@ Route::post('/GetSpecifiquesTables',[TableController::class,'GetSpecifiques']);
 // reservation 
 Route::post('/AddReservation',[ReservationController::class,'create_reservation']);
 Route::get('/GetReservationResponsable/{id}',[ReservationController::class,'Get_per_responsable']);
+Route::get('/AllReservations',[ReservationController::class,'all_reservation']);
+
 
 
 

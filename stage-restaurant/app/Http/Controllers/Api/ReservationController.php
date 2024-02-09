@@ -63,15 +63,6 @@ class ReservationController extends Controller
                 $query->where('id_res',$id_restaurant);
         })->get();
         
-      /*  $reservations = Reservation::with(['Table' => function ($query) use ($id_restaurant) {
-            // Eager load 'Role' relationship for 'Table'
-            $query->with('Role')->where('id_res', '=', $id_restaurant);
-        }])
-        ->whereHas('Table', function ($query) use ($id_restaurant) {
-            // Filter reservations based on the 'Table' relationship
-            $query->where('id_res', '=', $id_restaurant);
-        })
-        ->get();*/
         $nom_resto = Role::find($id_restaurant)->nom_restaurant; 
         $reservations['nom_restaurant'] =  $nom_resto;
 
