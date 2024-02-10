@@ -42,7 +42,7 @@
                                 <div><span><img :src="require('../assets/icons8-phone-50.png')" width="30px" height="30px"
                                             class="me-2" />{{ "Tel : " + store.user.tel }}</span></div>
                             </div>
-                            <div id="holder" class="mb-3"><button class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Update</button><button class="btn">Log
+                            <div id="holder" class="mb-3"><button class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Update</button><button class="btn" onclick="exit">Log
                                     out</button></div>
 
 
@@ -150,7 +150,7 @@
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-primary">Save</button>
+                  <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
                 </div>
               </form>
             </div>
@@ -211,6 +211,17 @@ export default
                     this.user.photo = this.$refs.UserPhoto.files[0];
                     console.log(this.user.photo);
 
+                },
+                update_user()
+                {
+                    Users.UpdateUser(this.user).then((res)=>{
+                       this.user=(res.data.data);
+                       this.store.user=this.user ; 
+                       localStorage.setItem('user',JSON.stringify(this.store.user));
+                    })
+                },
+                exit(){
+                    this.store.logout();
                 }
         },
 

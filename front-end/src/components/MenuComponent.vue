@@ -64,7 +64,6 @@
                     <input class="form-check-input" type="checkbox" :value="supp.id" v-model="selected_supplements">
                     <label class="form-check-label" for="flexCheckDefault">
                       {{ supp.name }}
-                      {{ supp.id }}
                     </label>
                   </div>
                 </div>

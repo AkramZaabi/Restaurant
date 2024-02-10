@@ -40,6 +40,8 @@ Route::get('/GetSupplement',[SupplementController::class,'getSupplements']);
 Route::get('/GetUsers',[UserController::class,'getusers']);
 Route::get('/GetResponsables',[UserController::class,'getresponsables']);
 Route::delete('/DeleteUser/{id}',[UserController::class,'deleteUser']);
+Route::post('/Update_User',[UserController::class,'update']);
+
 //plats
 Route::post('/AddPlat',[PLatController::class,'addPlat']);
 

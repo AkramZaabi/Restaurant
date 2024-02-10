@@ -61,19 +61,36 @@ class UserController extends Controller
     {
         //
         $user=User::find($request->id);
-        $file_name = time() . '_' . $request->photo->getClientOriginalName();
-        $image = $request->file('photo')->storeAs('images', $file_name, 'public');
+        if($request->hasFile('photo'))
+        {
+            $file_name = time() . '_' . $request->photo->getClientOriginalName();
+            $image = $request->file('photo')->storeAs('images', $file_name, 'public');    
+            $user->update([
+                "name" =>$request->name,
+                "lastName" =>$request->lastName,
+                "addresse" =>$request->addresse,
+                "tel"=>$request->tel,
+                "email"=>$request->email,
+                "password"=>bcrypt($request->password),
+                "photo"=>'/storage/'.$image,
+            ]);
+        }
 
+        else{
 
-        $user->update([
-            "name" =>$request->name,
-            "lastName" =>$request->lastName,
-            "addresse" =>$request->addresse,
-            "tel"=>$request->tel,
-            "email"=>$request->email,
-            "password"=>bcrypt($request->password),
-            "photo"=>$image,
-        ]);
+            $user->update([
+                "name" =>$request->name,
+                "lastName" =>$request->lastName,
+                "addresse" =>$request->addresse,
+                "tel"=>$request->tel,
+                "email"=>$request->email,
+                "password"=>bcrypt($request->password),
+                
+            ]);
+        }
+        return  response()->json(["data"=>$user],200);
+        
+
 
 
     }
