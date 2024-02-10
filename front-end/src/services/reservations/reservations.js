@@ -35,6 +35,18 @@ export default {
         Admin_reservations()
         {
                 return  Axios.get('AllReservations');
+        },
+        MyReservations(id)
+        {
+                return  Axios.get('MyReservation/'+id);
+        },
+        AcceptReservation(id)
+        {
+                return   Axios.put('AcceptReservation/'+id);
+        },
+        RejectReservation(id)
+        {
+                return   Axios.put('RejectReservation/'+id);
         }
 
 

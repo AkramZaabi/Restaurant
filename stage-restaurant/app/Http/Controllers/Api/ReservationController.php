@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Events\Notif;
 use App\Http\Controllers\Controller;
+use App\Models\Notifaction;
 use App\Models\Reservation;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\DB;
 
 class ReservationController extends Controller
 {
@@ -36,10 +40,47 @@ class ReservationController extends Controller
             $new_Rerservation->Date= $request->Date ; 
             $new_Rerservation->table_id = $request->table_id ; 
             $new_Rerservation->id_user= $request->id_user;
-            $new_Rerservation->prix  = 50 ; 
+            $new_Rerservation->prix  = 10* $request->nbPersonne; 
+            $new_Rerservation->status= 0 ; 
 
             $new_Rerservation->save();
             return  response()->json(['data'=>"booked successfully"],200);
+
+    }
+    public function accepter_reservation($id)
+    {
+
+
+        $reservation = Reservation::find($id);
+        $reservation->update(['status'=>1]);
+        $notif = new Notifaction();
+        $message = "Your Reservation N° " . $reservation->id . " has been accepted";
+        $notif->create([
+            "user_id" => $reservation->id_user,
+            "message" => $message,
+            "status" => 1,
+        ]);
+        broadcast(new Notif($notif->message));
+    
+        return  response()->json(['data'=>$reservation],200);
+
+    }
+    public function reject_reservation($id)
+    {
+
+
+        $reservation = Reservation::find($id);
+        $reservation->update(['status'=>2]);
+        $notif = new Notifaction();
+        $message = "Your Reservation N° " . $reservation->id . " has been rejected";
+        $notif->create([
+            "user_id" => $reservation->id_user,
+            "message" => $message,
+            "status" => 0,
+        ]);
+        broadcast(new Notif($notif->message));
+     
+        return  response()->json(['data'=>$reservation],200);
 
     }
     public  function all_reservation()
@@ -69,6 +110,16 @@ class ReservationController extends Controller
 
         return  response()->json(['data'=>$reservations],200);
         
+    }
+    public function my_reservations($id)
+    {
+        $reservations = Reservation::with('Table')->where('id_user',$id)->get();
+        for($i = 0 ;  $i<count($reservations) ; $i++)
+        {
+            $nom_resto =  Role::find($reservations[$i]['table']['id_res'])->nom_restaurant;
+            $reservations[$i]['nom_restaurant'] = $nom_resto;
+        }
+        return  response()->json(['data'=>$reservations],200);
     }
 
     /**

@@ -18,6 +18,7 @@ class CreateReservationsTable extends Migration
             $table->date('Date');
             $table->foreignId('table_id');
             $table->integer('nbPersonne');
+            $table->integer('status');
             $table->unsignedDouble('prix');
             $table->foreignId('id_user');
             $table->timestamps();
