@@ -117,7 +117,7 @@
 
                     <div class="d-flex justify-content-between mb-5">
                       <h5 class="text-uppercase">Total price</h5>
-                      <h5>0</h5>
+                      <h5>{{prixtotal}}</h5>
                     </div>
 
                     <button @click="checkout()" type="button" id="checkout" class="btn btn-dark btn-block btn-lg"
@@ -163,12 +163,21 @@ export default {
     prixtotal() {
       let total = 0;
 
-      this.cart.forEach((product) => {
-        total += product.colors[product.selected].inStock * product.price;
-      });
+     for(let i = 0 ; i<this.cart.plats.length ; i++)
+      {
 
+        let  supp_total    = 0 ; 
+        for(let   j = 0 ;  j< this.cart.plats[i].supplements.length ; j++)
+        {
+            supp_total += this.cart.plats[i].supplements[j].prix;
+        }
+        total+=(this.cart.plats[i].prix+supp_total)*this.cart.plats[i].quantite;
+
+
+
+      }
       // Return the formatted total price
-      return "€ " + total.toFixed(2);
+      return "Dt " + total.toFixed(2);
     },
   },
   methods: {

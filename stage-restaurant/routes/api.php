@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\api\LivraisonController;
+use App\Http\Controllers\api\NotifactionController;
 use App\Http\Controllers\Api\PLatController;
 use App\Http\Controllers\api\ReservationController;
 use App\Http\Controllers\Api\UserController;
@@ -69,7 +70,14 @@ Route::post('/GetSpecifiquesTables',[TableController::class,'GetSpecifiques']);
 Route::post('/AddReservation',[ReservationController::class,'create_reservation']);
 Route::get('/GetReservationResponsable/{id}',[ReservationController::class,'Get_per_responsable']);
 Route::get('/AllReservations',[ReservationController::class,'all_reservation']);
+Route::get('/MyReservation/{id}',[ReservationController::class,'my_reservations']);
+Route::put('/RejectReservation/{id}',[ReservationController::class,'reject_reservation']);
+Route::put('/AcceptReservation/{id}',[ReservationController::class,'accepter_reservation']);
 
+// notifications
+
+
+Route::get('/MyNotifications/{id}',[NotifactionController::class,'Getnotif']);
 
 
 

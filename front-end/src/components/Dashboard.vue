@@ -190,6 +190,7 @@
               <td style="text-align: center">Price</td>
               <td style="text-align: center">table</td>
               <td style="text-align: center">restaurant</td>
+              <td style="text-align: center">Status</td>
             </tr>
 
             <tr v-for="(reservation, index2) in Reservations" :key="index2">
@@ -201,6 +202,11 @@
               </td>
               <td>{{ reservation.table_id }}</td>
               <td>{{ reservation.nom_restaurant }}</td>
+              <td v-if="reservation.status == 0"><button  class="btn" @click="accept_reservation(reservation.id)">Accept</button> <button class="btn" @click="reject_reservation(reservation.id)">Reject</button></td>
+              <td v-if="reservation.status==1" style="color:green">Accepted</td>
+              <td v-if="reservation.status==2" style="color:red">Rejected</td>
+
+              
 
               
             </tr>
@@ -426,6 +432,22 @@ export default
           CommadeService.update_commande(id).then((res)=>{
             console.log(res.data.data);
           })
+      },
+      accept_reservation(id)
+      {
+        reservations.AcceptReservation(id).then((res)=>{
+          console.log(res.data.data);
+        });
+      this.Getreservations();
+
+      },
+      reject_reservation(id)
+      {
+        reservations.RejectReservation(id).then((res)=>{
+          console.log(res.data.data);
+        });
+      this.Getreservations();
+
       },
 
       deleteclient(id)

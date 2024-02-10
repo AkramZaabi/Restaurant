@@ -8,7 +8,7 @@
         </div>
         <div class="body container">
             <button class="btn">Sort by</button>
-            <div class="plats">
+            <div class="plats container">
                 <div class="plates card shadow" v-for="(plat,index) in  plats"  :key="index">
                    <div class="card-plat"> 
                     <div class="header-plat"> 
@@ -20,7 +20,7 @@
                     </div>
                     </div>
                    <div class="price">
-                    <span class="mt-1">{{ '$'+ plat.prix  }}</span>
+                    <span class="mt-1">{{  plat.prix + " Dt"  }}</span>
                     <button class="btn buy" @click="ChangeSelected(plat)" data-bs-toggle="modal" data-bs-target="#exampleModal">add to cart</button>
                    </div>
                 </div>
@@ -61,7 +61,7 @@
                 <div id="supp-available">
                 <div v-for="(supp, index2) in selected_plat.supplements" :key="index2" class="check-area ">
                   <div class="form-check ms-3">
-                    <input class="form-check-input" type="checkbox" :value="supp.id" v-model="selected_supplements">
+                    <input class="form-check-input" type="checkbox" :value="{ id: supp.id, prix: supp.prix }" v-model="selected_supplements">
                     <label class="form-check-label" for="flexCheckDefault">
                       {{ supp.name }}
                     </label>
@@ -131,10 +131,9 @@ export default {
             console.log(this.selected_plat
             );
         },
-        SaveCart(plat)
-        {
-          plat.supplements=this.selected_supplements;
-          const list = localStorage.getItem("plats");
+        SaveCart(plat) {
+      plat.supplements = this.selected_supplements;
+      const list = localStorage.getItem("plats");
       let productList = JSON.parse(list) || [];
       const index = productList.findIndex((p) => p.id === plat.id);
       if (index === -1) {
@@ -145,8 +144,8 @@ export default {
       }
       localStorage.setItem("plats", JSON.stringify(productList));
       console.log("Cart length:", productList.length);
-      this.selected_supplements=[];
-        }
+      this.selected_supplements = [];
+    }
       
 
             
@@ -264,6 +263,7 @@ p {
     flex-wrap: wrap;
     justify-content: center;
      gap:30px;
+     width: 80%;
 }
 .plates img {
     border-radius: 50%;

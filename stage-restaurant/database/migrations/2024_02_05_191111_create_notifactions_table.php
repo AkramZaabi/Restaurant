@@ -16,7 +16,7 @@ class CreateNotifactionsTable extends Migration
         Schema::create('notifactions', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->default(0);
             $table->integer('status');
             $table->string('message');
             $table->foreign('user_id')->references('id')->on('users');
