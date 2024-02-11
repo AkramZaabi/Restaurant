@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\LignePlat;
 use App\Models\LigneSupp;
 use App\Models\Livraison;
+use App\Models\Notifaction;
 use App\Models\Plat;
 use App\Models\Supplement;
 use Illuminate\Http\Request;
@@ -45,6 +46,15 @@ class LivraisonController extends Controller
         if ($livraison) {
             // Update the status or perform any other necessary logic here
             $livraison->update(['status' => 1]);
+            $id = $livraison->id_user  ;
+        $notif = new Notifaction();
+        $message = "Your Order  N° " . $livraison->id . " has been accepted";
+        $notif->create([
+            "user_id" => $id,
+            "message" => $message,
+            "status" => 1,
+        ]);
+        broadcast(new Notif($notif->message));
             
             return response()->json(['message' => 'Commande updated successfully'], 200);
         }
@@ -140,6 +150,18 @@ class LivraisonController extends Controller
         $livraison  =  Livraison::find($id) ; 
 
         $livraison->update(['status'=>2]);
+
+        $id = $livraison->id_user  ;
+        $notif = new Notifaction();
+        $message = "Your Order  N° " . $livraison->id . " has been rejected";
+        $notif->create([
+            "user_id" => $id,
+            "message" => $message,
+            "status" => 0,
+        ]);
+        broadcast(new Notif($notif->message));
+
+
 
         return response()->json(['message' => 'Commande rejected successfully'], 200);
 
