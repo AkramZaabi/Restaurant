@@ -13,8 +13,9 @@
                         type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Favoris</button>
                     <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-notifications"
                         type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Notifications</button>
-                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-notifications"
-                        type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Clients Reservations</button>
+                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
+                        data-bs-target="#nav-clients_reservations" type="button" role="tab" aria-controls="nav-profile"
+                        aria-selected="false">Clients Reservations</button>
 
                 </div>
             </nav>
@@ -131,41 +132,82 @@
                     <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">Notifications</h1>
                     <div class="container notifications mt-5">
                         <div v-for="(notif, index) in  notifs" :key="index">
-                            <div v-if="notif.status == 1" class="alert alert-success d-flex align-items-center notif" role="alert">
+                            <div v-if="notif.status == 1" class="alert alert-success d-flex align-items-center notif"
+                                role="alert">
                                 <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:">
                                     <use xlink:href="#check-circle-fill" />
                                 </svg>
-                                <div  class="message">
+                                <div class="message">
                                     {{ notif.message }}
                                 </div>
                                 <button type="button" class="btn-close ms-2" aria-label="Close"></button>
                             </div>
                             <div v-else class="alert alert-danger d-flex align-items-center notif" role="alert">
-                                <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                                <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:">
+                                    <use xlink:href="#exclamation-triangle-fill" />
+                                </svg>
                                 <div class="message">
-                                    {{notif.message}}
+                                    {{ notif.message }}
                                 </div>
                                 <button type="button" class="btn-close ms-2" aria-label="Close"></button>
-                                </div>
+                            </div>
                         </div>
-                       
+
                     </div>
                 </div>
+                <div class="tab-pane fade" id="nav-clients_reservations" role="tabpanel" aria-labelledby="nav-disabled-tab"
+                    tabindex="0">
+
+                    <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">clients reservations </h1>
+                    <table class="dataTable">
+
+                        <tr>
+                            <td style="text-align: center">Reservation </td>
+                            <td style="text-align: center">Date</td>
+                            <td style="text-align: center">Personnes</td>
+                            <td style="text-align: center">Price</td>
+                            <td style="text-align: center">table</td>
+                            <td style="text-align: center">restaurant</td>
+                            <td style="text-align: center">Status</td>
+                        </tr>
+
+                        <tr v-for="(reservation, index2) in clients_reservations" :key="index2">
+                            <td class="table-info">{{ reservation.id }}</td>
+                            <td class="table-info">{{ reservation.Date }}</td>
+                            <td class="table-info">{{ reservation.nbPersonne }}</td>
+                            <td class="table-info">
+                                {{ reservation.prix }}
+                            </td>
+                            <td>{{ reservation.table_id }}</td>
+                            <td v-if="reservation.id">{{ clients_reservations.nom_restaurant }}</td>
+                            <td v-if="reservation.status == 0"><button class="btn"
+                                    @click="accept_reservation(reservation.id)">Accept</button> <button class="btn"
+                                    @click="reject_reservation(reservation.id)">Reject</button></td>
+                            <td v-if="reservation.status == 1" style="color:green">Accepted</td>
+                            <td v-if="reservation.status == 2" style="color:red">Rejected</td>
+
+
+
+
+                        </tr>
+
+                    </table>
+                </div>
             </div>
-             <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-                            <symbol id="check-circle-fill" viewBox="0 0 16 16">
-                                <path
-                                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-                            </symbol>
-                            <symbol id="info-fill" viewBox="0 0 16 16">
-                                <path
-                                    d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
-                            </symbol>
-                            <symbol id="exclamation-triangle-fill" viewBox="0 0 16 16">
-                                <path
-                                    d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                            </symbol>
-                        </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+                <symbol id="check-circle-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </symbol>
+                <symbol id="info-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                </symbol>
+                <symbol id="exclamation-triangle-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                </symbol>
+            </svg>
             <!-- Button trigger modal -->
 
             <!-- Modal -->
@@ -268,6 +310,7 @@ export default
             this.user = this.store.user;
             this.get_reservations();
             this.getnotif();
+            this.get_reservations_responabels();
 
         },
         data() {
@@ -277,6 +320,7 @@ export default
                 user: "",
                 reservations: [],
                 notifs: [],
+                clients_reservations: [],
 
 
             }
@@ -313,12 +357,20 @@ export default
                 });
             },
             getnotif() {
-                console.log("hhhh");
+
                 notifications.Getnotifications(this.store.user.id).then((res) => {
-                    console.log("hi");
+
                     console.log(res.data.data);
                     this.notifs = res.data.data;
                 })
+            },
+            get_reservations_responabels() {
+                if (this.store.role.role_number == 2) {
+                    reservation.GetReservationResponsable(this.user.id).then((res) => {
+                        console.log(res.data.data);
+                        this.clients_reservations = res.data.data;
+                    });
+                }
             }
         },
 
@@ -347,27 +399,31 @@ h1 {
 .table-info {
     text-align: center;
 }
-.message{
+
+.message {
     display: flex;
     align-items: center;
 }
+
 .notifications {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    gap:15px;
+    gap: 15px;
 }
-.notif
-{
+
+.notif {
     display: flex;
     align-items: flex-start;
-    
+
 }
+
 .notifications div {
-    height : 100px !important;
+    height: 100px !important;
     display: flex;
 }
+
 .notifications svg {
     width: 50px;
     height: 50px;
@@ -474,7 +530,8 @@ nav {
     flex-direction: row;
     justify-content: left !important;
 }
-#nav-notifications{
+
+#nav-notifications {
     height: auto;
 }
 

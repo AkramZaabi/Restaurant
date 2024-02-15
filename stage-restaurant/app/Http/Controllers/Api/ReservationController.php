@@ -121,6 +121,7 @@ class ReservationController extends Controller
         }
         return  response()->json(['data'=>$reservations],200);
     }
+   
 
     /**
      * Display the specified resource.
