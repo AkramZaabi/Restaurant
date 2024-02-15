@@ -13,6 +13,8 @@
                         type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Favoris</button>
                     <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-notifications"
                         type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Notifications</button>
+                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-notifications"
+                        type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Clients Reservations</button>
 
                 </div>
             </nav>

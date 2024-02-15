@@ -105,7 +105,7 @@ class LivraisonController extends Controller
                     if ( isset($plats[$i]['supplements'][$j])) 
                         {
 
-                            $supp = Supplement::find($plats[$i]['supplements'][$j]);
+                            $supp = Supplement::find($plats[$i]['supplements'][$j]['id']);
                             $somme += $supp->prix; 
                         }
                 }
@@ -129,7 +129,7 @@ class LivraisonController extends Controller
                     $ligne_supplement =  new LigneSupp();
                     if(isset($supplements[$j]))
                     {
-                        $ligne_supplement->supplement_id =  $supplements[$j];
+                        $ligne_supplement->supplement_id =  $supplements[$j]['id'];
                         $ligne_supplement->ligneplat_id =   $ligne_plat->id; 
                         $ligne_supplement->save();
                     }
