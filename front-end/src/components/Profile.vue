@@ -306,8 +306,8 @@ export default
             })
         },
         created() {
-            this.COMMANDES();
             this.user = this.store.user;
+            this.COMMANDES();
             this.get_reservations();
             this.getnotif();
             this.get_reservations_responabels();
@@ -327,12 +327,12 @@ export default
         },
         methods: {
             COMMANDES() {
-                if (this.store.user.id) {
-
-                    commande.get_commandes(this.store.user.id).then((res) => {
+                if (this.store.user && this.store.user.id) {
+                    commande.get_commandes(this.user.id).then((res) => {
                         this.commande = res.data.data;
                         console.log(res.data.data);
                     });
+
                 }
             },
             uploadFile() {
@@ -351,27 +351,32 @@ export default
                 this.store.logout();
             },
             get_reservations() {
+
+                if (this.store.user && this.store.user.id) {
                 reservation.MyReservations(this.store.user.id).then((res) => {
                     this.reservations = res.data.data;
                     console.log(res.data.data);
                 });
+            }
             },
             getnotif() {
-
+                if (this.store.user && this.store.user.id) {
                 notifications.Getnotifications(this.store.user.id).then((res) => {
 
                     console.log(res.data.data);
                     this.notifs = res.data.data;
                 })
+            }
             },
             get_reservations_responabels() {
+                if (this.store.user && this.store.user.id) {
                 if (this.store.role.role_number == 2) {
                     reservation.GetReservationResponsable(this.user.id).then((res) => {
                         console.log(res.data.data);
                         this.clients_reservations = res.data.data;
                     });
                 }
-            }
+            }}
         },
 
 

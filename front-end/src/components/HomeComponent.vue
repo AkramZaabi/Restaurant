@@ -354,7 +354,8 @@ export default {
     Responsables()
     {
       Users.GetResponsables().then((res)=>{
-        this.Res  =  res.data.data ; 
+        this.Res  =  res.data.data ;
+        console.log("les responsables"); 
         console.log(this.Res);
       })
     },
