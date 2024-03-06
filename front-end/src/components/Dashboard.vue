@@ -307,7 +307,6 @@ export default
           name: "",
           photo: "",
           selected_supplements: [],
-
         },
         users: [],
         Responsables: [],

@@ -16,10 +16,10 @@
                          <h2>{{ plat.nom }}</h2>
                     </div>
                   <div class="img-holder mt-3 me-1">
-                 <img :src="require('../assets/icons8-heart-50.png')" class="img-icon"/>
+                 <img :src="require('../assets/icons8-heart-50.png')" class="img-icon" @click="Add_favoris(plat)"/>
                     </div>
                     </div>
-                   <div class="price">
+                   <div class="price">  
                     <span class="mt-1">{{  plat.prix + " Dt"  }}</span>
                     <button class="btn buy" @click="ChangeSelected(plat)" data-bs-toggle="modal" data-bs-target="#exampleModal">add to cart</button>
                    </div>
@@ -94,9 +94,14 @@
 
 
 import productService from "@/services/product_manipulation/product_add.js";
+import Favoris from "@/services/Favoris/Favoris";
+import { AuthStore } from "@/store/auth.js"
 
 export default {
-
+    setup() {
+      const store = AuthStore();
+      return { store }
+    },
     created()
     {
         this.getplats(); 
@@ -145,7 +150,17 @@ export default {
       localStorage.setItem("plats", JSON.stringify(productList));
       console.log("Cart length:", productList.length);
       this.selected_supplements = [];
-    }
+    },
+    Add_favoris(plat)
+    {
+      let favoris ={'plat_id':0,'user_id':0}; 
+      favoris.user_id =  this.store.user.id ;  
+      favoris.plat_id = plat.id;  
+      console.log(favoris);
+      Favoris.Add_favorite(favoris).then((res)=>{
+        console.log(res.data.data);
+      })
+    },
       
 
             

@@ -82,6 +82,7 @@ Route::get('/MyNotifications/{id}',[NotifactionController::class,'Getnotif']);
 
 //favoris
 Route::get('/Get_favoris/{id}',[FavorisController::class,'Get_favoris']);
+Route::post('/Add_favoris',[FavorisController::class,'store']);
 
 
 

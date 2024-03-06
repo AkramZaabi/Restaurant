@@ -40,7 +40,7 @@ class FavorisController extends Controller
             'plat_id'=>$plat_id
         ]);
 
-        return  response()->json(['data',$favoris],200);
+        return  response()->json(['data successfully added'],200);
     }
 
     /**

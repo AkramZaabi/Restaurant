@@ -9,7 +9,7 @@
                         type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Reservations</button>
                     <button class="nav-link" id="nav-clients-tab" data-bs-toggle="tab" data-bs-target="#nav-clients"
                         type="button" role="tab" aria-controls="nav-clients" aria-selected="false">Commandes</button>
-                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-favoris"
                         type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Favoris</button>
                     <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-notifications"
                         type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Notifications</button>
@@ -291,7 +291,9 @@ import productService from "@/services/product_manipulation/product_add.js";
 import Users from "@/services/Users/Users";
 import reservation from "@/services/reservations/reservations";
 import commande from "@/services/product_manipulation/commande";
-import notifications from "@/services/notifications/notifications"
+import notifications from "@/services/notifications/notifications";
+import favoris from "@/services/Favoris/Favoris";
+
 import { AuthStore } from "@/store/auth.js"
 
 export default
@@ -311,6 +313,7 @@ export default
             this.get_reservations();
             this.getnotif();
             this.get_reservations_responabels();
+            this.getfavoris(this.user.id);
 
         },
         data() {
@@ -321,6 +324,7 @@ export default
                 reservations: [],
                 notifs: [],
                 clients_reservations: [],
+                favoris : [] ,
 
 
             }
@@ -376,7 +380,18 @@ export default
                         this.clients_reservations = res.data.data;
                     });
                 }
-            }}
+            }},
+            getfavoris(id)
+            {
+                if (this.store.user && this.store.user.id) {
+
+                    favoris.GetFavrois(id).then((res)=>{
+                        console.log(res.data.data);
+                        this.favoris = res.data.data;
+                    });
+
+                }
+            }
         },
 
 
