@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\FavorisController;
 use App\Http\Controllers\api\LivraisonController;
 use App\Http\Controllers\api\NotifactionController;
 use App\Http\Controllers\Api\PLatController;
@@ -79,6 +80,8 @@ Route::put('/AcceptReservation/{id}',[ReservationController::class,'accepter_res
 
 Route::get('/MyNotifications/{id}',[NotifactionController::class,'Getnotif']);
 
+//favoris
+Route::get('/Get_favoris/{id}',[FavorisController::class,'Get_favoris']);
 
 
 

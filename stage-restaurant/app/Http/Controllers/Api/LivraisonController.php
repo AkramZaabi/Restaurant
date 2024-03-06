@@ -150,7 +150,6 @@ class LivraisonController extends Controller
         $livraison  =  Livraison::find($id) ; 
 
         $livraison->update(['status'=>2]);
-
         $id = $livraison->id_user  ;
         $notif = new Notifaction();
         $message = "Your Order  N° " . $livraison->id . " has been rejected";

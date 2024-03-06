@@ -31,6 +31,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Notifaction::class);
     }
+    public function Favoris()
+    {
+        return $this->hasMany(Favoris::class);
+    }
     /**
      * The attributes that are mass assignable.
      *

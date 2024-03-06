@@ -23,5 +23,9 @@ class Plat extends Model
     {
         return  $this->hasMany(LignePlat::class);
     }
+    public function Favoris()
+    {   
+        return  $this->hasMany(Favoris::class);
+    }
 
 }
