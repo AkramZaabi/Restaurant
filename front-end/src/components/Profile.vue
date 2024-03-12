@@ -11,11 +11,13 @@
                         type="button" role="tab" aria-controls="nav-clients" aria-selected="false">Commandes</button>
                     <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-favoris"
                         type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Favoris</button>
-                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-notifications"
-                        type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Notifications</button>
                     <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
-                        data-bs-target="#nav-clients_reservations" type="button" role="tab" aria-controls="nav-profile"
-                        aria-selected="false">Clients Reservations</button>
+                        data-bs-target="#nav-notifications" type="button" role="tab" aria-controls="nav-profile"
+                        aria-selected="false">Notifications</button>
+                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
+                        v-if="store.user && user.role.role_number == 2" data-bs-target="#nav-clients_reservations"
+                        type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Clients
+                        Reservations</button>
 
                 </div>
             </nav>
@@ -32,19 +34,21 @@
                         <h1 class="text-center">My Profile </h1>
                         <div id="profile" class="card shadow">
 
-                            <img :src="'http://localhost:8000' + store.user.photo" id="profile_picture" @click="menuToggle"
-                                class="mt-3 ms-2" />
+                            <img :src="'http://localhost:8000' + store.user.photo" id="profile_picture"
+                                @click="menuToggle" class="mt-3 ms-2" />
                             <div id="text-infos" class="informations">
                                 <div><span><img :src="require('../assets/client-icon.png')" width="30px" height="30px"
                                             class="me-2" />{{ "Name: " + store.user.name + " " + store.user.lastName
-                                            }}</span>
+                                        }}</span>
                                 </div>
-                                <div><span><img :src="require('../assets/orange-calendar.png')" width="30px" height="30px"
-                                            class="me-2" />{{ "BirthDate: " + store.user.Date }}</span></div>
-                                <div><span><img :src="require('../assets/icons8-home-30.png')" width="30px" height="30px"
-                                            class="me-2" />{{ "Addresse: " + store.user.addresse }}</span></div>
-                                <div><span><img :src="require('../assets/icons8-phone-50.png')" width="30px" height="30px"
-                                            class="me-2" />{{ "Tel : " + store.user.tel }}</span></div>
+                                <div><span><img :src="require('../assets/orange-calendar.png')" width="30px"
+                                            height="30px" class="me-2" />{{ "BirthDate: " + store.user.Date }}</span>
+                                </div>
+                                <div><span><img :src="require('../assets/icons8-home-30.png')" width="30px"
+                                            height="30px" class="me-2" />{{ "Addresse: " + store.user.addresse }}</span>
+                                </div>
+                                <div><span><img :src="require('../assets/icons8-phone-50.png')" width="30px"
+                                            height="30px" class="me-2" />{{ "Tel : " + store.user.tel }}</span></div>
                             </div>
                             <div id="holder" class="mb-3"><button class="btn" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">Update</button><button class="btn" onclick="exit">Log
@@ -55,7 +59,30 @@
 
                     </div>
                 </div>
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                <div class="tab-pane fade show" id="nav-favoris" role="tabpanel" aria-labelledby="nav-home-tab"
+                    tabindex="0">
+                    <div >
+                        <h1 class="text-center">Favoris</h1>
+                        <div class="plats container parent">
+                            <div class="plates card shadow" v-for="(plat, index) in  plats" :key="index">
+                                <div class="card-plat">
+                                    <div class="header-plat">
+                                        <img class="mt-2 ms-2" :src="'http://localhost:8000/storage/' + plat.photo"
+                                            width="50px" />
+                                        <h2>{{ plat.nom }}</h2>
+                                    </div>
+                                    
+                                </div>
+                                <div class="price">
+                                    <span class="mt-1">{{ plat.prix + " Dt" }}</span>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"
+                    tabindex="0">
                     <!-- plats -->
                     <div class="plats dash">
                         <h1 class="text-center">Reservations </h1>
@@ -93,7 +120,47 @@
 
                     </table>
                 </div>
-                <div class="tab-pane fade" id="nav-clients" role="tabpanel" aria-labelledby="nav-clients-tab" tabindex="0">
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"
+                    tabindex="0">
+                    <!-- plats -->
+                    <div class="plats dash">
+                        <h1 class="text-center">Reservations </h1>
+                        <table class="dataTable">
+
+                            <tr>
+                                <td style="text-align: center">Reservation </td>
+                                <td style="text-align: center">Date</td>
+                                <td style="text-align: center">Personnes</td>
+                                <td style="text-align: center">Price</td>
+                                <td style="text-align: center">table</td>
+                                <td style="text-align: center">restaurant</td>
+                                <td style="text-align: center">status</td>
+
+                            </tr>
+
+                            <tr v-for="(reservation, index2) in reservations" :key="index2">
+                                <td class="table-info">{{ reservation.id }}</td>
+                                <td class="table-info">{{ reservation.Date }}</td>
+                                <td class="table-info">{{ reservation.nbPersonne }}</td>
+                                <td class="table-info">
+                                    {{ reservation.prix }}
+                                </td>
+                                <td>{{ reservation.table_id }}</td>
+                                <td>{{ reservation.nom_restaurant }}</td>
+                                <td v-if="reservation.status == 1" style="color: green">Accepted</td>
+                                <td v-if="reservation.status == 0" style="color: orange">In Line</td>
+                                <td v-if="reservation.status == 2" style="color: red">Rejected</td>
+
+                            </tr>
+
+                        </table>
+                    </div>
+                    <table>
+
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="nav-clients" role="tabpanel" aria-labelledby="nav-clients-tab"
+                    tabindex="0">
                     <h1 class="text-center">Commandes</h1>
                     <div>
                         <table v-for="(com, index) in  commande" :key="index" class="dataTable">
@@ -155,8 +222,8 @@
 
                     </div>
                 </div>
-                <div class="tab-pane fade" id="nav-clients_reservations" role="tabpanel" aria-labelledby="nav-disabled-tab"
-                    tabindex="0">
+                <div class="tab-pane fade" id="nav-clients_reservations" role="tabpanel"
+                    aria-labelledby="nav-disabled-tab" tabindex="0">
 
                     <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">clients reservations </h1>
                     <table class="dataTable">
@@ -181,7 +248,7 @@
                             <td>{{ reservation.table_id }}</td>
                             <td v-if="reservation.id">{{ clients_reservations.nom_restaurant }}</td>
                             <td v-if="reservation.status == 0"><button class="btn"
-                                    @click="accept_reservation(reservation.id)">Accept</button> <button class="btn"
+                                    @click="accept_res(reservation.id)">Accept</button> <button class="btn"
                                     @click="reject_reservation(reservation.id)">Reject</button></td>
                             <td v-if="reservation.status == 1" style="color:green">Accepted</td>
                             <td v-if="reservation.status == 2" style="color:red">Rejected</td>
@@ -212,8 +279,8 @@
 
             <!-- Modal -->
 
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-                data-bs-backdrop="static">
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true" data-bs-backdrop="static">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -223,8 +290,8 @@
                         <div class="modal-body">
                             <form id="update-form" class="card shadow" @submit.prevent="update_user()"
                                 enctype="multipart/form-data">
-                                <label for="exampleInputEmail1" class="form-label"><img :src="require(`../assets/logo.png`)"
-                                        width="50px" class="me-2 mt-2" /></label>
+                                <label for="exampleInputEmail1" class="form-label"><img
+                                        :src="require(`../assets/logo.png`)" width="50px" class="me-2 mt-2" /></label>
                                 <div class="mb-3 container" width="500px">
                                     <label for="exampleInputEmail1" class="form-label">Name:</label>
                                     <input type="text" class="form-control" v-model="user.name" id="exampleInputEmail"
@@ -233,8 +300,9 @@
                                 </div>
                                 <div class="mb-3 container" width="500px">
                                     <label for="exampleInputEmail2" class="form-label">LastName:</label>
-                                    <input type="text" class="form-control" v-model="user.lastName" id="exampleInputEmail"
-                                        placeholder="Enter the prodduct's name" aria-describedby="emailHelp">
+                                    <input type="text" class="form-control" v-model="user.lastName"
+                                        id="exampleInputEmail" placeholder="Enter the prodduct's name"
+                                        aria-describedby="emailHelp">
 
                                 </div>
                                 <div class="mb-3 container" width="500px">
@@ -244,8 +312,8 @@
                                 </div>
                                 <div class="mb-3 container" width="500px">
                                     <label for="exampleInputPassword2" class="form-label">e-mail:</label>
-                                    <input type="mail" class="form-control" v-model="user.email" id="exampleInputPassword"
-                                        placeholder="Enter the prodduct's price">
+                                    <input type="mail" class="form-control" v-model="user.email"
+                                        id="exampleInputPassword" placeholder="Enter the prodduct's price">
                                 </div>
                                 <div class="mb-3 container" width="500px">
                                     <label for="exampleInputPassword3" class="form-label">password:</label>
@@ -254,8 +322,8 @@
                                 </div>
                                 <div class="mb-3 container" width="500px">
                                     <label for="TEL" class="form-label">Tel:</label>
-                                    <input type="number" class="form-control" v-model="user.tel" id="exampleInputPassword"
-                                        min="0" placeholder="Enter Estimated Time..">
+                                    <input type="number" class="form-control" v-model="user.tel"
+                                        id="exampleInputPassword" min="0" placeholder="Enter Estimated Time..">
                                 </div>
 
 
@@ -267,7 +335,8 @@
 
 
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
                                 </div>
                             </form>
@@ -282,9 +351,9 @@
 
     </div>
 </template>
-  
-  
-  
+
+
+
 <script>
 
 import productService from "@/services/product_manipulation/product_add.js";
@@ -309,11 +378,13 @@ export default
         },
         created() {
             this.user = this.store.user;
+            console.log(this.user);
+            console.log("hhh");
             this.COMMANDES();
             this.get_reservations();
             this.getnotif();
             this.get_reservations_responabels();
-            this.getfavoris(this.user.id);
+            this.getfavoris();
 
         },
         data() {
@@ -324,7 +395,8 @@ export default
                 reservations: [],
                 notifs: [],
                 clients_reservations: [],
-                favoris : [] ,
+                favoris: [],
+                plats:[],
 
 
             }
@@ -357,42 +429,52 @@ export default
             get_reservations() {
 
                 if (this.store.user && this.store.user.id) {
-                reservation.MyReservations(this.store.user.id).then((res) => {
-                    this.reservations = res.data.data;
-                    console.log(res.data.data);
-                });
-            }
+                    reservation.MyReservations(this.store.user.id).then((res) => {
+                        this.reservations = res.data.data;
+                        console.log(res.data.data);
+                    });
+                }
             },
             getnotif() {
                 if (this.store.user && this.store.user.id) {
-                notifications.Getnotifications(this.store.user.id).then((res) => {
+                    notifications.Getnotifications(this.store.user.id).then((res) => {
 
-                    console.log(res.data.data);
-                    this.notifs = res.data.data;
-                })
-            }
+                        console.log(res.data.data);
+                        this.notifs = res.data.data;
+                    })
+                }
             },
             get_reservations_responabels() {
                 if (this.store.user && this.store.user.id) {
-                if (this.store.role.role_number == 2) {
-                    reservation.GetReservationResponsable(this.user.id).then((res) => {
-                        console.log(res.data.data);
-                        this.clients_reservations = res.data.data;
-                    });
+                    if (this.store.role.role_number == 2) {
+                        reservation.GetReservationResponsable(this.user.id).then((res) => {
+                            console.log(res.data.data);
+                            this.clients_reservations = res.data.data;
+                        });
+                    }
                 }
-            }},
-            getfavoris(id)
-            {
+            },
+            getfavoris(id) {
                 if (this.store.user && this.store.user.id) {
 
-                    favoris.GetFavrois(id).then((res)=>{
-                        console.log(res.data.data);
-                        this.favoris = res.data.data;
+                    favoris.GetFavrois(this.store.user.id).then((res) => {
+                       // console.log();
+                        //console.log(res.data.data);
+                        this.plats = res.data.data;
                     });
 
                 }
             }
         },
+        accept_res(id)
+      {
+        reservations.AcceptReservation(id).then((res)=>{
+          console.log(res.data.data);
+        });
+      this.Getreservations();
+
+      },
+        
 
 
 
@@ -404,6 +486,7 @@ export default
     }
 
 </script>
+
 <style scoped>
 h1 {
     font-weight: 500;
@@ -661,6 +744,65 @@ button {
     border: 0;
 }
 
+.btn{
+    justify-self: right;
+}
+
+.plates{
+    z-index: 0;
+    width: 180px;
+    height:200px;
+    background-color: #FABD62;
+    border-radius: 25px;
+    border: 0;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+  
+}
+/*.plats{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+     gap:30px;
+     width: 80%;
+}*/
+.plates img {
+    border-radius: 50%;
+    width: 120px;
+    height:100px;
+}
+.header-plat{
+    display: flex;
+    flex-direction:column ;
+    justify-content: center;
+    gap:10px;
+   align-content: center;
+   align-items: center;
+
+
+}
+
+.card-plat{
+  
+    gap:30px;
+}
+.plates h2{
+    font-size: small;
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+    color: #707070;
+}
+.parent{
+    width: 50%;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-between;
+   gap : 25px;
+}
 @media screen and (max-width: 768px) {
     body {
         font-size: 14px;
@@ -691,4 +833,5 @@ button {
         font-size: smaller;
     }
 
-}</style>
+}
+</style>

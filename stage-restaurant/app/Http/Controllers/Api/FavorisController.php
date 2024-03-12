@@ -20,7 +20,7 @@ class FavorisController extends Controller
         $plats = Plat::with('Favoris')->wherehas('Favoris', function($query) use ($id){
             $query->where('user_id',$id);
         })->get();
-        return response()->json(['data',$plats],200); 
+        return response()->json(['data'=>$plats],200); 
     }
 
     /**
@@ -34,6 +34,13 @@ class FavorisController extends Controller
         //
         $user_id =  $request->user_id ;  
         $plat_id = $request->plat_id ; 
+        $find = Favoris::where('user_id', $user_id)
+        ->where('plat_id', $plat_id)
+        ->exists();
+
+if ($find) {
+return response()->json(['message' => 'Record already exists'], 200);
+}
         $favoris = new Favoris();
         $favoris->create([
             'user_id'=>$user_id,

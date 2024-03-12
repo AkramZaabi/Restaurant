@@ -431,6 +431,8 @@ export default
           CommadeService.update_commande(id).then((res)=>{
             console.log(res.data.data);
           })
+      this.GetCommandes();
+
       },
       accept_reservation(id)
       {
@@ -467,7 +469,9 @@ export default
         CommadeService.reject_commande(id).then((res)=>{
             console.log(res.data.data);
           })
+          this.GetCommandes();
       }
+      
     },
 
 

@@ -49,20 +49,20 @@
             <img :src="require('../assets/logo.png')" id="logo" />
             <div class="input-icons">
               <img :src="require('../assets/client-icon.png')" id="icon-input" class="mt-3 ms-4" />
-              <input class="input-field shadow" type="text" v-model="form.name" placeholder="Enter your First Name..." />
+              <input class="input-field shadow" type="text" v-model="form.name" required placeholder="Enter your First Name..." />
             </div>
             <div class="input-icons">
               <img :src="require('../assets/client-icon.png')" id="icon-input" class="mt-3 ms-4" />
-              <input class="input-field shadow" type="text" v-model="form.lastname"
+              <input class="input-field shadow" type="text" v-model="form.lastname" required
                 placeholder="Enter your  Last Name.." />
             </div>
             <div class="input-icons">
               <img :src="require('../assets/orange-calendar.png')" id="icon-input" class="mt-3 ms-4 icons-update" />
-              <input class="input-field shadow" type="date" v-model="form.date" placeholder="Enter your  Birth Date.." />
+              <input class="input-field shadow" type="date" v-model="form.date" required   max="2008-12-31" placeholder="Enter your  Birth Date.." />
             </div>
             <div class="input-icons">
               <img :src="require('../assets/icons8-phone-50.png')" id="icon-input" class="mt-3 ms-4 icons-update" />
-              <input class="input-field shadow" type="number" v-model="form.tel"
+              <input class="input-field shadow" type="number" v-model="form.tel" required
                 placeholder="Enter your  telephone number.." />
             </div>
             <div class="input-icons">
@@ -75,13 +75,13 @@
             </div>
             <div class="input-icons">
               <img :src="require('../assets/client-icon.png')" id="icon-input" class="mt-3 ms-4" />
-              <input class="input-field shadow" type="password" v-model="form.password"
+              <input class="input-field shadow" type="password" v-model="form.password" required
                 placeholder="Enter your password.." />
             </div>
 
             <div class="file-input">
               <input ref="photo" @change="uploadFile" type="file" name="file-input" id="file-input"
-                class="file-input__input" />
+                class="file-input__input"  required/>
               <label class="file-input__label" for="file-input">
                 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="upload"
                   class="svg-inline--fa fa-upload fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg"
